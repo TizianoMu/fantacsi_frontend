@@ -4,11 +4,11 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-server: {
-    // Sostituisci "tuo-dominio.com" con il dominio che vuoi consentire
-    host: ['www.fantacsi.it', 'fantacsi.it', '127.0.0.1', 'localhost'],
+  server: {
+    host: true, // Questo permette a Vite di essere accessibile da altri dispositivi nella rete Docker
+ allowedHosts: true,
     watch: {
-      usePolling: true,
+      usePolling: true, // Potrebbe essere necessario per i sistemi Linux/WSL su Windows
     },
   },
   build: {
