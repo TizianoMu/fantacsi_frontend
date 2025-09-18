@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
 server: {
     // Sostituisci "tuo-dominio.com" con il dominio che vuoi consentire
-    host: 'tuo-dominio.com',
+    host: ['www.fantacsi.it', 'fantacsi.it', '127.0.0.1', 'localhost'],
     watch: {
       usePolling: true,
     },
