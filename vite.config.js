@@ -4,10 +4,11 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: true, // Questo permette a Vite di essere accessibile da altri dispositivi nella rete Docker
+server: {
+    // Sostituisci "tuo-dominio.com" con il dominio che vuoi consentire
+    host: 'tuo-dominio.com',
     watch: {
-      usePolling: true, // Potrebbe essere necessario per i sistemi Linux/WSL su Windows
+      usePolling: true,
     },
   },
   build: {
