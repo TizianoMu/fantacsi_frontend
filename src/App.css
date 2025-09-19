@@ -1262,6 +1262,7 @@ body,
   .emblem-container {
     flex-direction: column; /* Impila gli elementi verticalmente */
     gap: 1.5rem;
+    overflow: auto;
   }
 
   .emblem-preview {
