@@ -60,8 +60,13 @@ const DashboardPage = () => {
         if (hasTeam) {
           setNextMatch(dashboardData.next_match);
           if (dashboardData.next_match) {
+            // Crea un oggetto Date con la data e ora esatte del match
             const matchDate = new Date(dashboardData.next_match.date);
-            const deadline = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate(), 0, 0, 0);
+            
+            // Calcola la deadline sottraendo 60 minuti dalla data del match
+            const deadline = new Date(matchDate.getTime() - 60 * 60 * 1000);
+            
+            // Aggiorna lo stato in base al confronto
             setIsFormationDeadlinePassed(new Date() >= deadline);
           }
         }
