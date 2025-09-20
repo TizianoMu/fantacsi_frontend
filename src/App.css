@@ -379,7 +379,7 @@ body,
 
 .ranking-table {
   width: 100%;
-  max-width: 500px;
+  max-width: 100vw;
   margin: 2rem auto;
   border-collapse: collapse;
   background: white;
@@ -616,7 +616,8 @@ body,
   position: relative;
   max-height: 90vh;
   /* Limita l'altezza massima */
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   /* Nasconde overflow esterno */
   display: flex;
   flex-direction: column;
@@ -1307,7 +1308,7 @@ body,
 @media (max-width: 600px) {
   .ranking-table {
     font-size: 0.9rem;
-    max-width: 100%;
+    max-width: 100vw;
   }
 
   .central-box {
