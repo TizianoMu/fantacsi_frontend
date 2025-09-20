@@ -255,9 +255,11 @@ const DashboardPage = () => {
               <tbody>
                 {ranking.map((entry, index) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{ isChampionshipFinished ? ( index===0 ? <FontAwesomeIcon icon={faTrophy} style={{ color: '#edcc0dff' }} title="Campione" /> : null ) : null }</td>
-                    <td style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}>
+                    <td data-label="#">{index + 1}</td>
+                    <td data-label="Posizione">
+                      {isChampionshipFinished ? (index === 0 ? <FontAwesomeIcon icon={faTrophy} style={{ color: '#edcc0dff' }} title="Campione" /> : null) : null}
+                    </td>
+                    <td data-label="Emblema" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}>
                       {(entry.logo_shape && entry.logo_color1 && entry.logo_color2) ? (
                         <TeamEmblem
                           shape={entry.logo_shape}
@@ -270,10 +272,10 @@ const DashboardPage = () => {
                         />
                       ) : null}
                     </td>
-                    <td>
+                    <td data-label="SQUADRA">
                       <span>{entry.team_name}</span>
                     </td>
-                    <td>{entry.points}</td>
+                    <td data-label="PUNTI">{entry.points}</td>
                   </tr>
                 ))}
               </tbody>
