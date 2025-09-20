@@ -2453,3 +2453,11 @@ body,
   /* Assicurati che il contenitore sia posizionato relativamente */
   position: absolute;
 }
+
+@media (max-width: 768px) {
+  .ranking-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
