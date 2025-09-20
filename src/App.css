@@ -616,7 +616,7 @@ body,
   position: relative;
   max-height: 90vh;
   /* Limita l'altezza massima */
-  overflow: hidden;
+  overflow: auto;
   /* Nasconde overflow esterno */
   display: flex;
   flex-direction: column;
