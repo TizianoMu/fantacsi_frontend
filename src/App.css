@@ -1837,7 +1837,8 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7em;
+  font-size: 1em;
+	padding:0.25em;
   border: 1px solid white;
 }
 
