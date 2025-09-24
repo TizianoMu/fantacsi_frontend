@@ -20,6 +20,7 @@ const initialFormState = {
   isImageSaved: false,
   number: '',
   role: '',
+  second_role: '',
   value: '',
   isActive: true,
 };
@@ -155,6 +156,7 @@ const AddPlayersPage = () => {
           isImageSaved: !!selectedPlayer.photo_url,
           number: selectedPlayer.number || '',
           role: selectedPlayer.role || '',
+          second_role: selectedPlayer.second_role || '',
           value: selectedPlayer.initial_value || '',
           isActive: selectedPlayer.is_active ?? true,
         });
