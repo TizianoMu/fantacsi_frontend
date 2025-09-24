@@ -76,16 +76,97 @@ const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 })
     }
 
 
-    const renderPattern = () => {
-        // La logica del pattern rimane invariata
-        switch (pattern) {
-            case "stripes":
-                // ... (pattern)
-            // Resto dei pattern invariato
-            default:
-                return null;
-        }
-    };
+     const renderPattern = () => {
+
+        switch (pattern) {
+
+            case "stripes":
+
+                return (
+
+                    <>
+
+                        <line x1="0" y1="50" x2="200" y2="50" stroke={color2} strokeWidth="20" />
+
+                        <line x1="0" y1="100" x2="200" y2="100" stroke={color2} strokeWidth="20" />
+
+                        <line x1="0" y1="150" x2="200" y2="150" stroke={color2} strokeWidth="20" />
+
+                    </>
+
+                );
+
+            case "verticalStripes":
+
+                return (
+
+                    <>
+
+                        {Array.from({ length: 10 }).map((_, i) => (
+
+                            <line key={i} x1={20 * i} y1="0" x2={20 * i} y2="200" stroke={color2} strokeWidth="10" />
+
+                        ))}
+
+                    </>
+
+                );
+
+            case "singleDiagonal":
+
+                return <line x1="0" y1="200" x2="200" y2="0" stroke={color2} strokeWidth="20" />;
+
+            case "cross":
+
+                return (
+
+                    <>
+
+                        <line x1="100" y1="0" x2="100" y2="200" stroke={color2} strokeWidth="20" />
+
+                        <line x1="0" y1="100" x2="200" y2="100" stroke={color2} strokeWidth="20" />
+
+                    </>
+
+                );
+
+            case "diagonal":
+
+                return (
+
+                    <>
+
+                        <line x1="0" y1="0" x2="200" y2="200" stroke={color2} strokeWidth="20" />
+
+                        <line x1="200" y1="0" x2="0" y2="200" stroke={color2} strokeWidth="20" />
+
+                    </>
+
+                );
+
+            case "circles":
+
+                return (
+
+                    <>
+
+                        <circle cx="100" cy="100" r="40" fill="none" stroke={color2} strokeWidth="6" />
+
+                        <circle cx="100" cy="100" r="70" fill="none" stroke={color2} strokeWidth="6" />
+
+                    </>
+
+                );
+
+            default:
+
+                return null;
+
+        }
+
+    };
+
+
 
     const renderIcon = () => {
         const iconFontSize = '65px'; 
