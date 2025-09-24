@@ -2454,13 +2454,6 @@ body,
   position: absolute;
 }
 
-/*@media (max-width: 768px) {
-  .ranking-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-}*/
 @media (max-width: 768px) {
     .ranking-table {
         margin: 1rem auto;
@@ -2471,81 +2464,65 @@ body,
         display: none;
     }
 
-    /* Le righe (tr) diventano i contenitori principali (blocchi) */
+    /* Le righe (tr) diventano i contenitori principali e usano Grid */
     .ranking-table tr {
-        display: grid; /* Passiamo subito a Grid qui */
+        display: grid;
         border: 1px solid #ddd;
         margin-bottom: 1rem;
         border-radius: 4px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         padding: 0.5rem;
         
-        /* Layout Grid migliorato: 
-         * L'area info (pos, emblema) + squadra sulla prima riga.
+        /* Layout Grid: 
+         * Area info (pos, trofeo, emblema) + Squadra sulla prima riga.
          * Punti sulla seconda riga.
-         * 15% per l'info, 85% per la squadra. */
+         * Aumentiamo info al 20% per dare respiro. */
         grid-template-areas:
             "info team team team"
             "punti punti punti punti";
-        grid-template-columns: 15% 85%; 
+        grid-template-columns: 20% 80%; /* 20% per le info, 80% per squadra */
     }
 
-    /* Le celle (td) diventano elementi Grid per il layout sopra, tranne PUNTI */
+    /* Le celle (td) perdono il comportamento da tabella */
     .ranking-table td {
-        display: block; /* Ripristina a block o usa flex per gli elementi interni */
+        display: block; 
         text-align: left;
         padding: 0.5rem 0.8rem;
-        border-bottom: none; /* Rimuovi bordi tra gli elementi principali della riga */
-    }
-
-    /* Ultima cella (td) di ogni riga non ha bordo, ma usiamo la grid area */
-    .ranking-table tr > td:last-child {
         border-bottom: none;
     }
 
-
-    /* Genera l'etichetta solo per i campi che ne hanno bisogno */
-    .ranking-table td[data-label="PUNTI"]::before {
-        content: attr(data-label);
-        font-weight: bold;
-        color: #555;
-        text-transform: uppercase;
-        margin-right: 0.5rem;
-    }
-
     /* Rimuovi etichette per gli elementi in cima */
-    .ranking-table td[data-label="#"]::before,
-    .ranking-table td[data-label="Posizione"]::before,
-    .ranking-table td[data-label="Emblema"]::before,
-    .ranking-table td[data-label="SQUADRA"]::before {
+    .ranking-table td::before {
         content: none;
     }
     
     /* === Assegnazione alle Aree Grid === */
 
-    /* Raggruppa #, Posizione ed Emblema nella colonna 'info' */
+    /* Raggruppa #, Posizione ed Emblema nella colonna 'info' e allineali in riga */
     .ranking-table td[data-label="#"],
     .ranking-table td[data-label="Posizione"],
     .ranking-table td[data-label="Emblema"] {
         grid-area: info;
-        display: flex; /* Flexbox per allineare gli elementi l'uno accanto all'altro */
+        display: flex; 
         align-items: center;
-        justify-content: center; /* Centra il contenuto del blocco info */
+        justify-content: space-around; /* Distribuisci equamente #, Trofeo, Emblema */
         padding: 0;
         margin: 0;
-        /* Se vuoi dividerli e non sovrapporli: */
-        flex-direction: column; /* Impilali se non vuoi che # e Trofeo si sovrappongano */
     }
-
-    /* Stili specifici per i numeri e trofei (per la visibilità) */
+    /* # deve essere un po' più grande */
     .ranking-table td[data-label="#"] {
         font-size: 1.2rem;
         font-weight: bold;
     }
-
-    /* Un po' di stile per l'emblema, assicurandoti che sia centrato all'interno del suo spazio */
+    /* Nascondi il data-label Posizione se è vuoto (non c'è trofeo) */
+    .ranking-table td[data-label="Posizione"]:empty {
+        display: none;
+    }
+    /* Assicurati che l'emblema sia centrato nel suo spazio flex */
     .ranking-table td[data-label="Emblema"] {
-        margin: 0.2rem 0; /* Piccoli margini */
+        display: flex; 
+        align-items: center;
+        justify-content: center;
     }
     
     /* SQUADRA - usa il resto dello spazio */
@@ -2558,15 +2535,23 @@ body,
         font-size: 1.1rem;
     }
 
-    /* PUNTI - sulla riga inferiore, con etichetta */
+    /* PUNTI - sulla riga inferiore */
     .ranking-table td[data-label="PUNTI"] {
         grid-area: punti;
-        display: grid; /* Torna al layout etichetta/valore */
-        grid-template-columns: 100px 1fr; 
+        display: grid; 
+        grid-template-columns: 100px 1fr; /* Torna al layout etichetta/valore */
         padding-top: 0.8rem;
         font-size: 1.2rem;
         border-top: 1px dotted #eee;
         border-bottom: none;
+    }
+    /* Genera l'etichetta solo per i PUNTI */
+    .ranking-table td[data-label="PUNTI"]::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #555;
+        text-transform: uppercase;
+        margin-right: 0.5rem;
     }
 }
 
