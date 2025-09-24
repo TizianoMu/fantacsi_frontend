@@ -1808,8 +1808,8 @@ body,
 
 .player-list-photo-container {
   position: relative;
-  width: 45px;
-  height: 45px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background: #fff8ec;
   display: flex;
