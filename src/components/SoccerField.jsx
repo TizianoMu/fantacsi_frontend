@@ -119,7 +119,7 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
         canDrop: (item) => {
             // Se lo slot è vuoto, controlla il ruolo
             if (!player) {
-                return item.player.role === pos.role;
+                return (item.player.role === pos.role || item.player.second_role === pos.role);
             }
             // Se lo slot è pieno, permetti lo scambio
             return true;
