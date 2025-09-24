@@ -2525,6 +2525,7 @@ body,
     }
 
     .ranking-table td[data-label="#"]::before,
+	.ranking-table td[data-label="SQUADRA"]::before,
     .ranking-table td[data-label="Posizione"]::before,
     .ranking-table td[data-label="Emblema"]::before {
         content: none; /* Rimuovi l'etichetta */
