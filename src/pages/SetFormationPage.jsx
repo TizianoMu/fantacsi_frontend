@@ -180,11 +180,11 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
         // 3. VALIDAZIONI
         if (targetSlotType === 'starter') {
             const targetPlayer = playerDetails[targetPlayerId];
-            if (!targetPlayer && requiredRole && draggedPlayer.role !== requiredRole) {
+            if (!targetPlayer && requiredRole && draggedPlayer.role !== requiredRole && draggedPlayer.second_role !== requiredRole) {
                 showAppNotification(`Puoi inserire solo un ${requiredRole.toLowerCase()} in questa posizione.`);
                 return;
             }
-            if (targetPlayer && draggedPlayer.role !== targetPlayer.role) {
+            if (targetPlayer && draggedPlayer.role !== targetPlayer.role && draggedPlayer.second_role !== targetPlayer.role) {
                 showAppNotification(`Non puoi scambiare un ${draggedPlayer.role.toLowerCase()} con un ${targetPlayer.role.toLowerCase()} in questa posizione.`);
                 return;
             }
