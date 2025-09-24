@@ -354,20 +354,31 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
         }),
     }));
     return (
-        <div ref={drag} className="player-list-item-draggable" style={{ opacity: isDragging ? 0.5 : 1 }} onClick={() => onPlayerClick(player)}>
-            <div className="player-list-photo-container">
-                {player.photo_url ? (
-                    <img src={player.photo_url} alt={player.name} className="player-list-photo" />
-                ) : (
-                    <FontAwesomeIcon icon={faUser} />
-                )}
-                <div className="player-list-role-icon-overlay">
-                    <FontAwesomeIcon icon={getRoleIcon(player.role)} />
-                </div>
+    <div ref={drag} className="player-list-item-draggable" style={{ opacity: isDragging ? 0.5 : 1 }} onClick={() => onPlayerClick(player)}>
+        <div 
+            className="player-list-photo-container"
+            // Applichiamo gli stili di sfondo se l'URL è disponibile
+            style={player.photo_url ? {
+                backgroundImage: `url(${player.photo_url})`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            } : {}} // Altrimenti non applichiamo stili di sfondo
+        >
+            {/* Se l'URL NON è disponibile, mostriamo l'icona placeholder */}
+            {!player.photo_url && (
+                <FontAwesomeIcon icon={faUser} />
+            )}
+            
+            {/* Se l'URL È disponibile, non inseriamo nulla all'interno del div,
+                lasciando lo sfondo visibile. */}
+
+            <div className="player-list-role-icon-overlay">
+                <FontAwesomeIcon icon={getRoleIcon(player.role)} />
             </div>
-            <span className="player-list-name">{player.name}</span>
         </div>
-    );
+        <span className="player-list-name">{player.name}</span>
+    </div>
+);
 };
 
 const BenchPanel = ({ reserves, playerDetails, onDrop, onSlotClick, getRoleIcon, selectedSlot, isPastMatch, playerStats }) => {
