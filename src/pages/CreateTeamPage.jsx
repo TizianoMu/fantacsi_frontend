@@ -266,7 +266,6 @@ const CreateTeamPage = () => {
                                             // Applicazione degli stili per l'immagine di sfondo
                                             style={player.photo_url ? {
                                                 backgroundImage: `url(${player.photo_url})`,
-                                                backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                                 backgroundRepeat: 'no-repeat',
                                             } : {}} // Se non c'è URL, non applichiamo stili extra
