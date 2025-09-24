@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFutbol, faCrown, faStar, faFire } from "@fortawesome/free-solid-svg-icons";
 
 const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 }) => {
+    // Genera un ID univoco per il clipPath
     const shapeId = `emblem-shape-${Math.random().toString(36).substr(2, 9)}`;
 
     const renderShape = (isClip = false) => {
@@ -38,6 +39,7 @@ const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 })
     };
 
     const renderPattern = () => {
+        // Logica per i pattern (omessa per brevità, resta invariata)
         switch (pattern) {
             case "stripes":
                 return (
@@ -84,7 +86,10 @@ const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 })
     };
 
     const renderIcon = () => {
-        const props = { color: color3, fontSize: '70px' };
+        // Calcola la dimensione dell'icona (circa 80% della dimensione totale dell'emblema)
+        const iconFontSize = `${size * 0.8}px`; 
+        const props = { color: color3, style: { fontSize: iconFontSize } };
+        
         switch (icon) {
             case "ball":
                 return <FontAwesomeIcon icon={faFutbol} {...props} />;
@@ -100,16 +105,34 @@ const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 })
     };
 
     return (
-        <svg width={size} height={size} viewBox="0 0 200 200">
-            <defs>
-                <clipPath id={shapeId}>{renderShape(true)}</clipPath>
-            </defs>
-            {renderShape()}
-            <g clipPath={`url(#${shapeId})`}>{renderPattern()}</g>
-            <foreignObject x="56" y="60" width="80" height="80" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
-                {renderIcon()}
-            </foreignObject>
-        </svg>
+        // Contenitore principale con dimensioni fisse (p. es. 30px x 30px) e posizionamento relativo
+        <div style={{ width: size, height: size, position: 'relative' }}>
+            {/* L'SVG è posizionato assolutamente per riempire il contenitore */}
+            <svg width={size} height={size} viewBox="0 0 200 200" style={{ position: 'absolute', top: 0, left: 0 }}>
+                <defs>
+                    <clipPath id={shapeId}>{renderShape(true)}</clipPath>
+                </defs>
+                {renderShape()}
+                <g clipPath={`url(#${shapeId})`}>{renderPattern()}</g>
+            </svg>
+
+            {/* Icona di Font Awesome posizionata centralmente sopra l'SVG nel DOM normale */}
+            {icon ? (
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    height: '100%',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    {renderIcon()}
+                </div>
+            ) : null}
+        </div>
     );
 };
 
