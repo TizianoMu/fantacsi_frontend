@@ -69,6 +69,7 @@ export async function updatePlayer(championshipId, playerId, playerData) {
     // Aggiunge solo i campi da aggiornare
     formData.append('number', playerData.number);
     formData.append('role', playerData.role);
+    formData.append('second_role', playerData.second_role);
     formData.append('value', playerData.value);
     formData.append('isActive', playerData.isActive);
 
