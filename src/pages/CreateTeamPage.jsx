@@ -259,28 +259,40 @@ const CreateTeamPage = () => {
                         </div>
 
                         <div className="players-container">
-                            {teamPlayers.map((player) => (
-                                <div key={player.id} className="player-item">
-                                    <div className="player-circle">
-                                        {player.photo_url ? (
-                                            <img src={player.photo_url} alt={player.name} className="player-photo" />
-                                        ) : (
-                                            <div className="player-placeholder">
-                                                <FontAwesomeIcon icon={faUser} size="2x" />
+                           {teamPlayers.map((player) => (
+                                    <div key={player.id} className="player-item">
+                                        <div 
+                                            className="player-circle"
+                                            // Applicazione degli stili per l'immagine di sfondo
+                                            style={player.photo_url ? {
+                                                backgroundImage: `url(${player.photo_url})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                backgroundRepeat: 'no-repeat',
+                                            } : {}} // Se non c'è URL, non applichiamo stili extra
+                                        >
+                                            {/* Se non c'è l'URL della foto, mostriamo l'icona placeholder */}
+                                            {!player.photo_url && (
+                                                <div className="player-placeholder">
+                                                    {/* Mantieni il placeholder esistente */}
+                                                    <FontAwesomeIcon icon={faUser} size="2x" />
+                                                </div>
+                                            )}
+                                            
+                                            {/* Rimuovi il vecchio tag <img> */}
+                                            
+                                            <div className="role-label">
+                                                <FontAwesomeIcon icon={getRoleIcon(player.role)} />
                                             </div>
-                                        )}
-                                        <div className="role-label">
-                                            <FontAwesomeIcon icon={getRoleIcon(player.role)} />
+                                            <div className="value-label">
+                                                {player.initial_value}
+                                            </div>
                                         </div>
-                                        <div className="value-label">
-                                            {player.initial_value}
+                                        <div className="player-label">
+                                            <span>{player.name}</span>
                                         </div>
                                     </div>
-                                    <div className="player-label">
-                                        <span>{player.name}</span>
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
                                 {isEditing && (
                                     <button className="add-player-button button" onClick={handleOpenSelectPlayersModal}>
                                         <FontAwesomeIcon icon={teamExists ? faEdit : faPlus} />
