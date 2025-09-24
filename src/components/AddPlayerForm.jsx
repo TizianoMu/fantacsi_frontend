@@ -113,7 +113,6 @@ const AddPlayerForm = ({
           id="second_role"
           name="second_role"
           value={formState.second_role}
-          required
           onChange={handleInputChange}
           className="input-field"
         >
