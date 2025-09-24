@@ -1303,6 +1303,17 @@ body,
     display: none;
   }
 }
+.player-list-photo-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #fff8ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Non si restringe */
+}
 
 
 @media (max-width: 600px) {
@@ -1806,17 +1817,6 @@ body,
   background-color: #e9f5e9;
 }
 
-.player-list-photo-container {
-  position: relative;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: #fff8ec;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0; /* Non si restringe */
-}
 
 .player-list-photo {
   width: 100%;
