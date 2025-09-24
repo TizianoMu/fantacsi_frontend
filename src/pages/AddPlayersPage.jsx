@@ -276,18 +276,17 @@ const AddPlayersPage = () => {
                     setSelectedPlayer(player);
                     setShowAddPlayerModal(true);
                   }}
+                  style={player.photo_url ? {
+                      backgroundImage: `url(${player.photo_url.replace(/^app\//, '')})`,
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                  } : {}} 
                 >
-                  {player.photo_url ? (
-                    <img
-                      src={`${player.photo_url.replace(/^app\//, '')}`}
-                      alt={player.name}
-                      className="player-photo"
-                      onError={(e) => { e.target.onerror = null; e.target.src = '/default-player.png'; }}
-                    />
-                  ) : (
-                    <div className="player-placeholder">
-                      <FontAwesomeIcon icon={faUser} size="2x" />
-                    </div>
+                  {!player.photo_url && (
+                      <div className="player-placeholder">
+                          {/* Mantieni il placeholder esistente */}
+                          <FontAwesomeIcon icon={faUser} size="2x" />
+                      </div>
                   )}
                   {!player.is_active && (
                     <div className="disabled-overlay"></div>
