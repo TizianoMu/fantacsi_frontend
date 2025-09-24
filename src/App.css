@@ -2461,3 +2461,9 @@ body,
     white-space: nowrap;
   }
 }
+
+
+.username-on-ranking{
+  	color: #9d9d9d;
+	font-size: 12px;
+}
