@@ -1346,6 +1346,20 @@ body,
     height: 70px;
     font-size: 1.5rem;
   }
+	.role-label {
+        font-size: 0.8em; /* Riduci la dimensione del testo del ruolo */
+        padding: 0.25em; /* Riduci leggermente il padding per renderlo più piccolo */
+        top: 4px; /* Riduci anche il posizionamento */
+        left: 4px;
+    }
+
+    /* Ridimensionamento per value-label */
+    .value-label {
+        font-size: 0.75em; /* Riduci la dimensione del testo del valore */
+        padding: 0.25em 0.6em; /* Riduci il padding, specialmente verticale */
+        bottom: 4px; /* Riduci anche il posizionamento */
+        right: 2px;
+    }
 }
 
 
