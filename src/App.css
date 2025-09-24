@@ -2513,6 +2513,7 @@ body,
     .ranking-table td[data-label="#"] {
         font-size: 1.2rem;
         font-weight: bold;
+		position:absolute;
     }
     /* Nascondi il data-label Posizione se è vuoto (non c'è trofeo) */
     .ranking-table td[data-label="Posizione"]:empty {
