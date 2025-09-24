@@ -108,6 +108,23 @@ const AddPlayerForm = ({
         </select>
       </div>
       <div className="form-group">
+        <label htmlFor="second_role">Ruolo secondario</label>
+        <select
+          id="second_role"
+          name="second_role"
+          value={formState.second_role}
+          required
+          onChange={handleInputChange}
+          className="input-field"
+        >
+          <option value="">Seleziona un ruolo</option>
+          <option value="PORTIERE">Portiere</option>
+          <option value="DIFENSORE">Difensore</option>
+          <option value="CENTROCAMPISTA">Centrocampista</option>
+          <option value="ATTACCANTE">Attaccante</option>
+        </select>
+      </div>
+      <div className="form-group">
         <label htmlFor="value">Valore <span style={{ color: 'red' }}>*</span></label>
         <input
           type="number"
