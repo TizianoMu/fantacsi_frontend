@@ -86,53 +86,55 @@ const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 })
     };
 
     const renderIcon = () => {
-        // Calcola la dimensione dell'icona (circa 80% della dimensione totale dell'emblema)
-        const iconFontSize = `${size * 0.8}px`; 
-        const props = { color: color3, style: { fontSize: iconFontSize } };
+        // La dimensione dell'icona (70px) era riferita al DOM normale.
+        // Se vogliamo che l'icona Font Awesome riempia l'area del foreignObject (p. es. 80x80), 
+        // diamo un font-size leggermente inferiore. 
+        // L'area centrale del foreignObject la impostiamo a 80x80 (da 60 a 140) per centrare.
+        const iconFontSize = '65px'; // Valore ottimizzato per un foreignObject 80x80 nel viewBox 200x200
+        
+        const props = { 
+            color: color3, 
+            style: { 
+                fontSize: iconFontSize,
+                lineHeight: '1', // Evita spazio extra
+            } 
+        };
         
         switch (icon) {
             case "ball":
                 return <FontAwesomeIcon icon={faFutbol} {...props} />;
             case "crown":
-                return <FontAwesomeIcon icon={faCrown} {...props} />;
-            case "star":
-                return <FontAwesomeIcon icon={faStar} {...props} />;
-            case "flame":
-                return <FontAwesomeIcon icon={faFire} {...props} />;
+            // ... (altri casi)
             default:
                 return null;
         }
     };
 
     return (
-        // Contenitore principale con dimensioni fisse (p. es. 30px x 30px) e posizionamento relativo
-        <div style={{ width: size, height: size, position: 'relative' }}>
-            {/* L'SVG è posizionato assolutamente per riempire il contenitore */}
-            <svg width={size} height={size} viewBox="0 0 200 200" style={{ position: 'absolute', top: 0, left: 0 }}>
-                <defs>
-                    <clipPath id={shapeId}>{renderShape(true)}</clipPath>
-                </defs>
-                {renderShape()}
-                <g clipPath={`url(#${shapeId})`}>{renderPattern()}</g>
-            </svg>
-
-            {/* Icona di Font Awesome posizionata centralmente sopra l'SVG nel DOM normale */}
-            {icon ? (
-                <div style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    height: '100%',
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    {renderIcon()}
-                </div>
-            ) : null}
-        </div>
+        <svg width={size} height={size} viewBox="0 0 200 200">
+            <defs>
+                <clipPath id={shapeId}>{renderShape(true)}</clipPath>
+            </defs>
+            {renderShape()}
+            <g clipPath={`url(#${shapeId})`}>{renderPattern()}</g>
+            
+            {/* ForeignObject centrato: 
+             * x: (200 - 80) / 2 = 60
+             * y: (200 - 80) / 2 = 60 
+             * width/height: 80 
+             * Questo rende l'area centrale 80x80 pixel nel contesto 200x200. */}
+            <foreignObject x="60" y="60" width="80" height="80" 
+                style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    overflow: 'visible',
+                    textAlign: 'center' // Assicura che il testo sia centrato
+                }}
+            >
+                {renderIcon()}
+            </foreignObject>
+        </svg>
     );
 };
 
