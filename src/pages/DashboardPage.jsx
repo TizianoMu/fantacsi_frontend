@@ -259,7 +259,7 @@ const DashboardPage = () => {
                     <td data-label="Posizione">
                       {isChampionshipFinished ? (index === 0 ? <FontAwesomeIcon icon={faTrophy} style={{ color: '#edcc0dff' }} title="Campione" /> : null) : null}
                     </td>
-                    <td data-label="Emblema" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }}>
+                    <td data-label="Emblema">
                       {(entry.logo_shape && entry.logo_color1 && entry.logo_color2) ? (
                         <TeamEmblem
                           shape={entry.logo_shape}
