@@ -273,7 +273,7 @@ const DashboardPage = () => {
                       ) : null}
                     </td>
                     <td data-label="SQUADRA">
-                      <span>{entry.team_name}</span>
+                      <span>{entry.team_name}&nbsp;<span className="username-on-ranking">({entry.username})</span></span>
                     </td>
                     <td data-label="PUNTI">{entry.points}</td>
                   </tr>
