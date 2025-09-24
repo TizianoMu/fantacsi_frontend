@@ -1341,7 +1341,8 @@ body,
   }
 
   .player-circle,
-  .add-player-button {
+  .add-player-button,
+	.player-list-photo-container{
     width: 70px;
     height: 70px;
     font-size: 1.5rem;
