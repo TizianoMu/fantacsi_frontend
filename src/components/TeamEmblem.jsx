@@ -112,36 +112,36 @@ const TeamEmblem = ({ shape, pattern, color1, color2, color3, icon, size = 40 })
     };
 
     return (
-        <svg width={size} height={size} viewBox="0 0 200 200">
-            <defs>
-                {/* 1. CLIPPED PATH: Usiamo la forma base come clip path per pattern e icone */}
-                <clipPath id={shapeId}>{renderShapeBase("white")}</clipPath>
-            </defs>
-            
-            {/* 2. LIVELLO BASE: Disegna la forma di sfondo (il colore1) */}
-            {renderShapeBase(color1)}
+        <svg width={size} height={size} viewBox="0 0 200 200">
+            <defs>
+                {/* 1. CLIPPED PATH: Definisce l'area di ritaglio */}
+                <clipPath id={shapeId}>{renderShapeBase("white")}</clipPath>
+            </defs>
+            
+            {/* 2. LIVELLO BASE: Disegna la forma di sfondo (colore1) */}
+            {renderShapeBase(color1)}
 
-            {/* 3. LIVELLO MEDIO: Pattern, clippato sulla forma */}
-            <g clipPath={`url(#${shapeId})`}>{renderPattern()}</g>
+            {/* 3. LIVELLO MEDIO (Pattern): Disegnato SOPRA lo sfondo, ma clippato */}
+            <g clipPath={`url(#${shapeId})`}>{renderPattern()}</g>
 
-            {/* 4. LIVELLO ALTO: Icona Font Awesome, anch'essa clippata */}
-            <foreignObject x="60" y="60" width="80" height="80" 
-                clipPath={`url(#${shapeId})`} /* Aggiungiamo il clipPath anche all'icona */
-                style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    overflow: 'visible',
-                    textAlign: 'center' 
-                }}
-            >
-                {renderIcon()}
-            </foreignObject>
-            
-            {/* 5. LIVELLO SUPERIORE: Disegna il contorno (stroke) per ultimo, sopra tutto */}
-            {renderStroke()}
-        </svg>
-    );
+            {/* 4. LIVELLO ALTO (Icona): Disegnato SOPRA il pattern, clippato */}
+            <foreignObject x="60" y="60" width="80" height="80" 
+                clipPath={`url(#${shapeId})`} 
+                style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    overflow: 'visible',
+                    textAlign: 'center' 
+                }}
+            >
+                {renderIcon()}
+            </foreignObject>
+            
+            {/* 5. LIVELLO SUPERIORE (Contorno): Disegnato per ULTIMO (in cima a tutto) */}
+            {renderStroke()}
+        </svg>
+    );
 };
 
 export default TeamEmblem;
