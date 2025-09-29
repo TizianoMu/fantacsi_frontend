@@ -1842,6 +1842,23 @@ body,
   border: 1px solid white;
 }
 
+.player-list-second-role-icon-overlay {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7em;
+	padding:0.15em;
+  border: 0.5px solid white;
+}
+
 .player-list-name {
   font-weight: 500;
   font-size: 0.95rem;
