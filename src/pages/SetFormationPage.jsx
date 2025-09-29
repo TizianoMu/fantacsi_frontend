@@ -303,7 +303,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                                 <h5 className="hide-on-mobile">{role}</h5>
                                 <div className="role-group-players">
                                     {playersByRole[role].map(player => (
-                                        <DraggablePlayerListItem key={player.id} player={player} getRoleIcon={getRoleIcon} onPlayerClick={handlePlayerListClick} />
+                                        <DraggablePlayerListItem key={player.id} player={player} getRoleIcon={getRoleIcon} getSecondRoleIcon={getRoleIcon} onPlayerClick={handlePlayerListClick} />
                                     ))}
                                 </div>
                             </div>
