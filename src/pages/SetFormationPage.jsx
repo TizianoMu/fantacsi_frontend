@@ -376,6 +376,11 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
             <div className="player-list-role-icon-overlay">
                 <FontAwesomeIcon icon={getRoleIcon(player.role)} />
             </div>
+            {player.second_role && (
+                <div className="player-list-second-role-icon-overlay">
+                    <FontAwesomeIcon icon={getRoleIcon(player.second_role)} />
+                </div>
+            )
         </div>
         <span className="player-list-name">{player.name}</span>
     </div>
