@@ -869,8 +869,8 @@ body,
 
 .role-label {
   position: absolute;
-  top: 6px;
-  left: 6px;
+  top: 0;
+  left: 0;
   background: var(--navbar-bg);
   color: white;
   border-radius: 50%;
@@ -2653,9 +2653,10 @@ body,
 
 .player-role-icon {
     position: absolute;
-    top: -10px; /* Sopra il cerchio */
-    font-size: 0.8rem;
-    color: white;
+    top: -10px;
+    left: -10px;
+    font-size: 1rem;
+    color: #000000;
 }
 
 .player-vote-text {
