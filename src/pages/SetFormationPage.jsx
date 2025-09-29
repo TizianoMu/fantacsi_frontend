@@ -362,6 +362,7 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
                 backgroundImage: `url(${player.photo_url})`,
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
+                backgroundSize:'200%',
             } : {}} // Altrimenti non applichiamo stili di sfondo
         >
             {/* Se l'URL NON è disponibile, mostriamo l'icona placeholder */}
