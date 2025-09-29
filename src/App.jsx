@@ -21,6 +21,7 @@ const UserProfilePage = lazy(() => import('./pages/UserProfilePage')); // Import
 const ResetPasswordPage = lazy(() => import('./auth/pages/ResetPasswordPage')); // Importa la pagina di reset della password
 const ConfirmEmailPage = lazy(() => import('./auth/pages/ConfirmEmailPage'));
 const PrivacyPolicyPage = lazy(() => import ('./pages/PrivacyPolicyPage'));
+const ContactPage = lazy(() => import ('./pages/ContactPage'));
 // SetFormationPage è già caricato dinamicamente tramite modale, quindi non è necessario qui.
 
 // Componente PrivateRoute per proteggere le route
@@ -58,6 +59,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} /> {/* Nuova rotta per il reset della password */}
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           {/* Rotte protette, accessibili solo se autenticati */}
           {/* Usiamo ProtectedLayout per avvolgere le rotte che devono avere l'Header */}
           <Route
