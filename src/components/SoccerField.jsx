@@ -59,33 +59,33 @@ const SoccerField = ({
     };
 
     const positions = getPositions(module);
-
     return (
         <div className="soccer-field-container">
             <svg viewBox="0 0 100 100" className="soccer-field-svg">
                 {/* Campo */}
                 <rect width="100" height="100" fill={fieldColor} />
 
-                {/* Linee */}
+                {/* Linee (come prima) */}
                 <rect x="5" y="5" width="90" height="90" fill="none" stroke={lineColor} strokeWidth="0.5" />
                 <line x1="50" y1="5" x2="50" y2="95" stroke={lineColor} strokeWidth="0.5" />
                 <circle cx="50" cy="50" r="10" fill="none" stroke={lineColor} strokeWidth="0.5" />
                 <circle cx="50" cy="50" r="1" fill={lineColor} />
 
-                {/* Aree di rigore */}
+                {/* Aree di rigore (come prima) */}
                 <rect x="20" y="80" width="60" height="15" fill="none" stroke={lineColor} strokeWidth="0.5" />
                 <rect x="30" y="90" width="40" height="5" fill="none" stroke={lineColor} strokeWidth="0.5" />
                 <rect x="20" y="5" width="60" height="15" fill="none" stroke={lineColor} strokeWidth="0.5" />
                 <rect x="30" y="5" width="40" height="5" fill="none" stroke={lineColor} strokeWidth="0.5" />
+            </svg>
 
-                {/* Posizioni giocatori */}
+            <div className="player-slots-overlay">
                 {positions.map((pos, index) => {
                     const playerId = starters[index];
                     const player = playerId ? playerDetails[playerId] : null;
                     return <PlayerSlot
                         key={index}
                         index={index}
-                        pos={pos}
+                        pos={pos} // Mantieni pos.x e pos.y in percentuale
                         player={player}
                         onDrop={onDrop}
                         onSlotClick={onSlotClick}
@@ -95,7 +95,7 @@ const SoccerField = ({
                         playerStats={playerStats}
                     />
                 })}
-            </svg>
+            </div>
         </div>
     );
 };
@@ -117,81 +117,77 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
         accept: ItemTypes.PLAYER,
         drop: (item) => onDrop(item, 'starter', index, pos.role),
         canDrop: (item) => {
-            // Se lo slot è vuoto, controlla il ruolo
+            // Logica di drop invariata
             if (!player) {
                 return (item.player.role === pos.role || item.player.second_role === pos.role);
             }
-            // Se lo slot è pieno, permetti lo scambio
             return true;
         },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop(),
         }),
-    }), [player, pos.role, onDrop, index]); // Aggiunte dipendenze
+    }), [player, pos.role, onDrop, index]);
 
     const isActive = isOver && canDrop;
-    let strokeColor = '#fff8ec';
-    if (isSelected) {
-        strokeColor = 'var(--primary-color)';
-    } else if (isActive) {
-        strokeColor = '#fff';
-    }
+    
+    // Classi dinamiche
+    const slotClass = `player-slot-div ${player ? 'filled' : 'empty'} ${isSelected ? 'selected' : ''} ${isActive ? 'can-drop' : ''}`;
 
-    const clipId = `clip-${index}`;
+    // Stili dinamici per il posizionamento in percentuale
+    const slotStyle = {
+        left: `${pos.x}%`,
+        top: `${pos.y}%`,
+    };
+    
+    // Colore del voto
+    const voteColor = isPastMatch && playerStats[player?.id] ? getVoteColor(playerStats[player.id].vote) : 'transparent';
+    const voteText = isPastMatch && playerStats[player?.id] ? (playerStats[player.id].vote !== null ? playerStats[player.id].vote.toFixed(1) : 'SV') : '';
 
     return (
-        <g ref={drop} transform={`translate(${pos.x}, ${pos.y})`} className="player-slot-group" onClick={() => onSlotClick('starter', index, player, pos.role)}>
+        <div 
+            ref={drop} 
+            className={slotClass} 
+            style={slotStyle} 
+            onClick={() => onSlotClick('starter', index, player, pos.role)}
+        >
+            {/* Icona del ruolo sopra */}
+            <div className="player-role-icon">
+                <FontAwesomeIcon icon={getRoleIcon(player ? player.role : pos.role)} />
+            </div>
+
             {player && (
                 <>
+                    {/* Foto o sfondo */}
                     {player.photo_url ? (
-                        <>
-                            <defs>
-                                <clipPath id={clipId}>
-                                    <circle r="6" cx="0" cy="0" />
-                                </clipPath>
-                            </defs>
-                            <image
-                                href={player.photo_url}
-                                x="-6" y="-6" height="12" width="12"
-                                clipPath={`url(#${clipId})`}
-                                preserveAspectRatio="xMidYMid slice"
-                            />
-                            <circle r="6" fill="none" stroke="#000" strokeWidth={isSelected || isActive ? "1" : "0.2"} />
-                        </>
+                        <img src={player.photo_url} alt={player.name} className="player-photo-slot" />
                     ) : (
-                        <circle r="6" fill="#1d282b" stroke={strokeColor} strokeWidth={isSelected || isActive ? "1" : "0.7"} />
+                        // Sfondo scuro se non c'è foto, lo slot ha già il background-color
+                        <></>
                     )}
-                    <text
-                        y="9" textAnchor="middle" fontSize="3.5" fill="#000"
-                        stroke="#fff" strokeWidth="0.19" paintOrder="stroke"
-                        style={{ pointerEvents: 'none' }}
-                    >
+                    
+                    {/* Bordo colorato per foto/sfondo in base alla selezione/drop (già gestito dalla classe .selected/.can-drop) */}
+
+                    {/* Nome del giocatore */}
+                    <span className="player-name-text">
                         {player.name.split(' ').pop()}
-                    </text>
+                    </span>
+                    
+                    {/* Voto se partita passata */}
                     {isPastMatch && playerStats[player.id] && (
-                        <text
-                            y="12.5" textAnchor="middle" fontSize="3" fill={getVoteColor(playerStats[player.id].vote)} fontWeight="bold"
-                            stroke="#000" strokeWidth="0.19" paintOrder="stroke"
-                            style={{ pointerEvents: 'none' }}
-                        >
-                            {playerStats[player.id].vote !== null ? playerStats[player.id].vote.toFixed(1) : 'SV'}
-                        </text>
+                        <span className="player-vote-text" style={{ color: voteColor }}>
+                            {voteText}
+                        </span>
                     )}
-                    <text y="-5" textAnchor="middle" fontSize="3" style={{ pointerEvents: 'none' }}>
-                        <FontAwesomeIcon icon={getRoleIcon(player.role)} color="white" />
-                    </text>
                 </>
             )}
+            
             {!player && (
-                <>
-                    <circle r="6" fill="rgba(255,255,255,0.3)" stroke={strokeColor} strokeWidth={isSelected || isActive ? "1" : "0.7"} />
-                    <text y="1" textAnchor="middle" fontSize="3" fill="white" opacity="0.7" style={{ pointerEvents: 'none' }}>
-                        <FontAwesomeIcon icon={getRoleIcon(pos.role)} />
-                    </text>
-                </>
+                // L'icona del ruolo è già gestita sopra per l'elemento vuoto
+                // Il cerchio vuoto è gestito dal CSS .player-slot-div.empty
+                <></>
             )}
-        </g>
+        </div>
     );
 };
 
