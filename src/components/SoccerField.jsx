@@ -139,6 +139,7 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
         backgroundImage: `url('${player.photo_url}')`,
         backgroundPosition: 'center', // Centra l'immagine
         backgroundRepeat: 'no-repeat',
+        backgroundSize:'200%',
         backgroundColor: 'transparent', // Assicura che l'immagine di sfondo sia visibile
     } : {};
 
