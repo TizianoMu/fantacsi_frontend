@@ -1844,7 +1844,7 @@ body,
 
 .player-list-second-role-icon-overlay {
   position: absolute;
-  bottom: -10px;
+  bottom: 10px;
   right: -10px;
   background: var(--primary-color);
   color: white;
