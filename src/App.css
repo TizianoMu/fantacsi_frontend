@@ -2656,7 +2656,10 @@ body,
     top: -10px;
     left: -10px;
     font-size: 1rem;
-    color: #000000;
+	background: var(--navbar-bg);
+    color: white;
+    border-radius: 50%;
+    padding: 0.3em;
 }
 
 .player-vote-text {
