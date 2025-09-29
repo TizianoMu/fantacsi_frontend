@@ -130,16 +130,24 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
     }), [player, pos.role, onDrop, index]);
 
     const isActive = isOver && canDrop;
-    
-    // Classi dinamiche
+
+    // 1. Definisci le classi dinamiche
     const slotClass = `player-slot-div ${player ? 'filled' : 'empty'} ${isSelected ? 'selected' : ''} ${isActive ? 'can-drop' : ''}`;
 
-    // Stili dinamici per il posizionamento in percentuale
-    const slotStyle = {
+    // 2. Aggiungi lo stile per la posizione e lo sfondo
+    const backgroundImageStyle = player && player.photo_url ? {
+        backgroundImage: `url('${player.photo_url}')`,
+        backgroundPosition: 'center', // Centra l'immagine
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'transparent', // Assicura che l'immagine di sfondo sia visibile
+    } : {};
+
+    const combinedStyle = {
         left: `${pos.x}%`,
         top: `${pos.y}%`,
+        ...backgroundImageStyle, // Aggiunge gli stili dello sfondo
     };
-    
+
     // Colore del voto
     const voteColor = isPastMatch && playerStats[player?.id] ? getVoteColor(playerStats[player.id].vote) : 'transparent';
     const voteText = isPastMatch && playerStats[player?.id] ? (playerStats[player.id].vote !== null ? playerStats[player.id].vote.toFixed(1) : 'SV') : '';
@@ -148,26 +156,16 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
         <div 
             ref={drop} 
             className={slotClass} 
-            style={slotStyle} 
+            style={combinedStyle} 
             onClick={() => onSlotClick('starter', index, player, pos.role)}
         >
-            {/* Icona del ruolo sopra */}
+            {/* Icona del ruolo sopra - sempre presente */}
             <div className="player-role-icon">
                 <FontAwesomeIcon icon={getRoleIcon(player ? player.role : pos.role)} />
             </div>
 
             {player && (
                 <>
-                    {/* Foto o sfondo */}
-                    {player.photo_url ? (
-                        <img src={player.photo_url} alt={player.name} className="player-photo-slot" />
-                    ) : (
-                        // Sfondo scuro se non c'è foto, lo slot ha già il background-color
-                        <></>
-                    )}
-                    
-                    {/* Bordo colorato per foto/sfondo in base alla selezione/drop (già gestito dalla classe .selected/.can-drop) */}
-
                     {/* Nome del giocatore */}
                     <span className="player-name-text">
                         {player.name.split(' ').pop()}
@@ -183,12 +181,10 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
             )}
             
             {!player && (
-                // L'icona del ruolo è già gestita sopra per l'elemento vuoto
-                // Il cerchio vuoto è gestito dal CSS .player-slot-div.empty
+                // Lo slot vuoto prende lo sfondo da .player-slot-div.empty
                 <></>
             )}
         </div>
     );
 };
-
 export default SoccerField;
