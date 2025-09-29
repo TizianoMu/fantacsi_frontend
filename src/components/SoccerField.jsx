@@ -106,10 +106,7 @@ SoccerField.getPositions = (module, rolesOnly = false) => {
 };
 
 const getVoteColor = (vote) => {
-    if (vote === null) return '#aaaaaa'; // Grigio per SV
-    if (vote >= 6.5) return '#4caf50';   // Verde
-    if (vote >= 6.0) return '#ffffff';   // Bianco
-    return '#f44336';                    // Rosso
+    return '#ffffff';   // Bianco
 };
 
 const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSelected, isPastMatch, playerStats }) => {
