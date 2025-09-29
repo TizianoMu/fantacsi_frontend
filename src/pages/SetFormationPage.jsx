@@ -184,7 +184,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                 showAppNotification(`Puoi inserire solo un ${requiredRole.toLowerCase()} in questa posizione.`);
                 return;
             }
-            if (targetPlayer && draggedPlayer.role !== targetPlayer.role && draggedPlayer.second_role !== targetPlayer.role) {
+            if (targetPlayer && draggedPlayer.role !== targetPlayer.role && draggedPlayer.second_role !== targetPlayer.role && draggedPlayer.role !== targetPlayer.second_role && draggedPlayer.second_role !== targetPlayer.second_role) {
                 showAppNotification(`Non puoi scambiare un ${draggedPlayer.role.toLowerCase()} con un ${targetPlayer.role.toLowerCase()} in questa posizione.`);
                 return;
             }
