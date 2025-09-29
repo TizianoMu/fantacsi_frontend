@@ -36,7 +36,7 @@ const PrivacyPolicyPage = () => {
                     <ul style={{ listStyleType: 'disc', marginLeft: '20px', marginTop: '10px', lineHeight: '1.6' }}>
                         <li><span className='bold-text'>Nome:</span> {Titolare.nome}</li>
                         <li><span className='bold-text'>Indirizzo:</span> {Titolare.indirizzo}</li>
-                        <li><span className='bold-text'>Email di contatto:</span> <a href={`mailto:${Titolare.email}`} style={{ color: primaryColor, fontWeight: 'bold', textDecoration: 'none' }} className="policy-link">{Titolare.email}</a></li>
+                        <li><span className='bold-text'>Email di contatto:</span> <a href={`mailto:${Titolare.email}`} style={{fontWeight: 'bold', textDecoration: 'none' }} className="policy-link">{Titolare.email}</a></li>
                     </ul>
                 </div>
 
@@ -107,7 +107,7 @@ const PrivacyPolicyPage = () => {
                     5. Diritti dell'Interessato
                 </h2>
                 <p style={{ marginBottom: '1rem' }}>
-                    In qualità di utente, puoi esercitare i seguenti diritti in qualsiasi momento, inviando una richiesta all'indirizzo email del Titolare: <strong><a href={`mailto:${Titolare.email}`} style={{ color: primaryColor, fontWeight: 'bold', textDecoration: 'none' }}>{Titolare.email}</a></strong>.
+                    In qualità di utente, puoi esercitare i seguenti diritti in qualsiasi momento, inviando una richiesta all'indirizzo email del Titolare: <strong><a href={`mailto:${Titolare.email}`} style={{ fontWeight: 'bold', textDecoration: 'none' }}>{Titolare.email}</a></strong>.
                 </p>
 
                 <ul style={{ listStyleType: 'disc', marginLeft: '20px', lineHeight: '1.6' }}>
