@@ -1919,16 +1919,31 @@ body,
   margin-bottom: 1rem;
 }
 
+/* Necessario per far sì che il div delle posizioni si sovrapponga all'SVG */
 .soccer-field-container {
-  width: 100%;
-  max-width: 500px;
-  aspect-ratio: 1 / 1;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    position: relative; /* Importante! */
 }
 
 .soccer-field-svg {
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    position: absolute; /* Per sovrapporsi al container */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Il campo deve stare sotto */
+}
+
+.player-slots-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; /* I giocatori devono stare sopra */
 }
 .field-panel {
   display: flex;
@@ -2578,4 +2593,75 @@ body,
 .username-on-ranking{
   	color: #9d9d9d;
 	font-size: 12px;
+}
+
+
+.player-slot-div {
+    position: absolute;
+    /* Dimensione fissa dello slot, ad esempio 40px */
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    /* Spostamento per centrare l'elemento sul punto (x, y) */
+    transform: translate(-50%, -50%); 
+}
+
+.player-slot-div.empty {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid #fff8ec;
+}
+
+.player-slot-div.filled {
+    background-color: #1d282b;
+    border: 2px solid #fff8ec;
+}
+
+.player-slot-div.selected {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 8px var(--secondary-color);
+}
+
+.player-slot-div.can-drop {
+    border-color: #fff !important;
+}
+
+.player-photo-slot {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.player-name-text {
+    position: absolute;
+    bottom: -15px; /* Sotto il cerchio */
+    font-size: 0.7rem;
+    color: #000;
+    text-shadow: 0.5px 0.5px 1px #fff; /* Simula paintOrder="stroke" */
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.player-role-icon {
+    position: absolute;
+    top: -10px; /* Sopra il cerchio */
+    font-size: 0.8rem;
+    color: white;
+}
+
+.player-vote-text {
+    position: absolute;
+    bottom: -25px; /* Sotto il nome */
+    font-size: 0.6rem;
+    font-weight: bold;
+    text-shadow: 0.5px 0.5px 1px #000;
 }
