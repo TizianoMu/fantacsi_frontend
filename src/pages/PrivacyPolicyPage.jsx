@@ -67,7 +67,7 @@ const PrivacyPolicyPage = () => {
                                     <span className='bold-text'>Esecuzione del contratto</span> (Art. 6.1.b)
                                 </td>
                             </tr>
-                            <tr className="hover:bg-blue-50">
+                            <tr>
                                 <td style={{ padding: '0.8rem', borderBottom: '1px solid #eee',fontWeight: 'bold' }}>Password hashata</td>
                                 <td style={{ padding: '0.8rem', borderBottom: '1px solid #eee' }}>
                                     Garantire la sicurezza e l'integrità del tuo account. (La password non è mai salvata in chiaro).
