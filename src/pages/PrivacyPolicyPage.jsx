@@ -12,7 +12,7 @@ const PrivacyPolicyPage = () => {
     return (
         <div className="central-box">
             {/* Contenitore principale che simula la policy card */}
-            <div>
+            <div className="dashboard-info">
                 
                 {/* Titolo principale */}
                 <h1 className="title">
