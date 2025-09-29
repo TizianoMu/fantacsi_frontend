@@ -161,11 +161,6 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
             <div className="player-role-icon">
                 <FontAwesomeIcon icon={getRoleIcon(player ? player.role : pos.role)} />
             </div>
-            {player.second_role && (
-                <div className="player-second-role-icon">
-                    <FontAwesomeIcon icon={getRoleIcon(player ? player.role : pos.role)} />
-                </div>
-            )}
             {player && (
                 <>
                     {/* Nome del giocatore */}
