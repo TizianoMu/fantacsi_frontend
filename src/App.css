@@ -1921,8 +1921,8 @@ body,
 
 /* Necessario per far sì che il div delle posizioni si sovrapponga all'SVG */
 .soccer-field-container {
-    width: 100%;
-    max-width: 500px;
+    width: 450px;
+    max-width: 100%;
     aspect-ratio: 1 / 1;
     position: relative; /* Importante! */
 }
