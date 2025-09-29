@@ -73,7 +73,7 @@ const PrivacyPolicyPage = () => {
                                     Garantire la sicurezza e l'integrità del tuo account. (La password non è mai salvata in chiaro).
                                 </td>
                                 <td style={{ padding: '0.8rem', borderBottom: '1px solid #eee'}}>
-                                    <span className='bold-text'>Legittimo interesse</span> (Art. 6.1.f)
+                                    <span className='bold-text'>Legittimo interesse (Art. 6.1.f)</span>
                                 </td>
                             </tr>
                         </tbody>
