@@ -2663,9 +2663,7 @@ body,
 }
 
 .player-vote-text {
-    position: absolute;
-    bottom: -25px; /* Sotto il nome */
-    font-size: 0.6rem;
+    font-size: 1em;
     font-weight: bold;
     text-shadow: 0.5px 0.5px 1px #000;
 }
