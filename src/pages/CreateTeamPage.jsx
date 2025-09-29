@@ -268,6 +268,7 @@ const CreateTeamPage = () => {
                                                 backgroundImage: `url(${player.photo_url})`,
                                                 backgroundPosition: 'center',
                                                 backgroundRepeat: 'no-repeat',
+                                                backgroundSize:'200%',
                                             } : {}} // Se non c'è URL, non applichiamo stili extra
                                         >
                                             {/* Se non c'è l'URL della foto, mostriamo l'icona placeholder */}
