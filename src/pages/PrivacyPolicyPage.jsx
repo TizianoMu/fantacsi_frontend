@@ -63,7 +63,7 @@ const PrivacyPolicyPage = () => {
                                 <td style={{ padding: '0.8rem', borderBottom: '1px solid #eee' }}>
                                     Permettere l'autenticazione, la gestione dell'account, la creazione e la partecipazione ai campionati.
                                 </td>
-                                <td style={{ padding: '0.8rem', borderBottom: '1px solid #eee'>
+                                <td style={{ padding: '0.8rem', borderBottom: '1px solid #eee'}}>
                                     <span className='bold-text'>Esecuzione del contratto (Art. 6.1.b)</span>
                                 </td>
                             </tr>
