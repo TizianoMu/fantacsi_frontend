@@ -2661,7 +2661,16 @@ body,
     border-radius: 50%;
     padding: 0.3em;
 }
-
+.player-role-icon {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 0.8em;
+    background: var(--navbar-bg);
+    color: white;
+    border-radius: 50%;
+    padding: 0.3em;
+}
 .player-vote-text {
     font-size: 1em;
     font-weight: bold;
