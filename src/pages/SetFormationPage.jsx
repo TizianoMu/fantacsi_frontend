@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTshirt, faUser, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { fetchChampionshipDetails } from '../api/championships';
 import { fetchMatchDetails } from '../api/matches';
-import { fetchTeamPlayers, fetchPlayersForChampionship } from '../api/players';
+import { fetchTeamPlayers, fetchPlayersForChampionship, fetchPlayersDetailsByIds } from '../api/players';
 import { fetchFormation, saveFormation, fetchFormationWithStats } from '../api/formations';
 import { getToken, decodeToken } from '../utils/auth';
 import SoccerField from '../components/SoccerField';
@@ -15,6 +15,7 @@ import Notification from '../components/calendar/Notification';
 import { getSettingsForSport } from '../utils/gameSettings';
 import { useIsMobile } from '../utils/hooks';
 import { getRoleIcon } from '../utils/icons';
+
 
 const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: propChampionshipId, onFormationSaved, isModal = false, isPastMatch = false }, ref) => {
     const params = useParams();
@@ -70,21 +71,48 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                 const token = getToken();
                 const userDetails = decodeToken(token);
 
+                // Carica i giocatori ATTUALI della squadra
                 const teamData = await fetchTeamPlayers(matchData.championship_id, userDetails.id);
                 const players = teamData.players || [];
+                const initialPlayerDetails = players.reduce((acc, p) => ({ ...acc, [p.id]: p }), {});
                 setTeamPlayers(players);
-                setPlayerDetails(players.reduce((acc, p) => ({ ...acc, [p.id]: p }), {}));
+                setPlayerDetails(initialPlayerDetails); // Imposta i giocatori attuali
 
                 let formationToLoad;
+                
                 if (isPastMatch) {
                     const data = await fetchFormationWithStats(matchId);
                     formationToLoad = data.formation;
+
                     // Mappiamo le statistiche per un accesso rapido tramite ID giocatore
                     const statsMap = (data.stats || []).reduce((acc, stat) => {
                         acc[stat.real_player_id] = stat;
                         return acc;
                     }, {});
                     setPlayerStats(statsMap);
+                    
+                    // --- INIZIO MODIFICA PER GIOCATORI STORICI ---
+                    const loadedStarters = formationToLoad.starters_player_ids || [];
+                    const loadedReserves = formationToLoad.reserves_player_ids || [];
+                    const allFormationPlayerIds = [...loadedStarters, ...loadedReserves].filter(Boolean);
+
+                    // Filtra gli ID che NON sono presenti nei dettagli dei giocatori attuali
+                    const missingPlayerIds = allFormationPlayerIds.filter(id => !initialPlayerDetails[id]);
+
+                    let historicalPlayerDetails = {};
+                    if (missingPlayerIds.length > 0) {
+                        // ➡️ CHIAMA LA FUNZIONE PER RECUPERARE I DETTAGLI STORICI
+                        const missingPlayersData = await fetchPlayersDetailsByIds(missingPlayerIds); 
+                        historicalPlayerDetails = missingPlayersData.reduce((acc, p) => ({ ...acc, [p.id]: p }), {});
+                    }
+
+                    // Unisci i dettagli dei giocatori attuali e storici
+                    setPlayerDetails(prevDetails => ({
+                        ...prevDetails, 
+                        ...historicalPlayerDetails, 
+                    }));
+                    // --- FINE MODIFICA PER GIOCATORI STORICI ---
+
                 } else {
                     formationToLoad = await fetchFormation(matchId);
                 }
@@ -116,6 +144,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
 
         loadData();
     }, [matchId, propChampionshipId, isPastMatch]);
+
+    // ... (Il resto del componente rimane invariato) ...
 
     const handleSaveFormation = async () => {
         const filledStarters = starters.filter(Boolean);
@@ -262,7 +292,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     const playersByRole = useMemo(() => {
         const allSelectedIds = [...starters, ...reserves].filter(Boolean);
         const available = teamPlayers.filter(p => !allSelectedIds.includes(p.id));
-        
+
         const grouped = available.reduce((acc, player) => {
             (acc[player.role] = acc[player.role] || []).push(player);
             return acc;
@@ -345,6 +375,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     );
 });
 
+// --- DraggablePlayerListItem, BenchPanel, getVoteClass, BenchSlot (Non modificati) ---
+
 const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: ItemTypes.PLAYER,
@@ -354,37 +386,37 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
         }),
     }));
     return (
-    <div ref={drag} className="player-list-item-draggable" style={{ opacity: isDragging ? 0.5 : 1 }} onClick={() => onPlayerClick(player)}>
-        <div 
-            className="player-list-photo-container"
-            // Applichiamo gli stili di sfondo se l'URL è disponibile
-            style={player.photo_url ? {
-                backgroundImage: `url(${player.photo_url})`,
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize:'200%',
-            } : {}} // Altrimenti non applichiamo stili di sfondo
-        >
-            {/* Se l'URL NON è disponibile, mostriamo l'icona placeholder */}
-            {!player.photo_url && (
-                <FontAwesomeIcon icon={faUser} />
-            )}
-            
-            {/* Se l'URL È disponibile, non inseriamo nulla all'interno del div,
-                lasciando lo sfondo visibile. */}
+        <div ref={drag} className="player-list-item-draggable" style={{ opacity: isDragging ? 0.5 : 1 }} onClick={() => onPlayerClick(player)}>
+            <div 
+                className="player-list-photo-container"
+                // Applichiamo gli stili di sfondo se l'URL è disponibile
+                style={player.photo_url ? {
+                    backgroundImage: `url(${player.photo_url})`,
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize:'200%',
+                } : {}} // Altrimenti non applichiamo stili di sfondo
+            >
+                {/* Se l'URL NON è disponibile, mostriamo l'icona placeholder */}
+                {!player.photo_url && (
+                    <FontAwesomeIcon icon={faUser} />
+                )}
+                
+                {/* Se l'URL È disponibile, non inseriamo nulla all'interno del div,
+                    lasciando lo sfondo visibile. */}
 
-            <div className="player-list-role-icon-overlay">
-                <FontAwesomeIcon icon={getRoleIcon(player.role)} />
-            </div>
-            {player.second_role && (
-                <div className="player-list-second-role-icon-overlay">
-                    <FontAwesomeIcon icon={getRoleIcon(player.second_role)} />
+                <div className="player-list-role-icon-overlay">
+                    <FontAwesomeIcon icon={getRoleIcon(player.role)} />
                 </div>
-            )}
+                {player.second_role && (
+                    <div className="player-list-second-role-icon-overlay">
+                        <FontAwesomeIcon icon={getRoleIcon(player.second_role)} />
+                    </div>
+                )}
+            </div>
+            <span className="player-list-name">{player.name}</span>
         </div>
-        <span className="player-list-name">{player.name}</span>
-    </div>
-);
+    );
 };
 
 const BenchPanel = ({ reserves, playerDetails, onDrop, onSlotClick, getRoleIcon, selectedSlot, isPastMatch, playerStats }) => {
@@ -452,4 +484,3 @@ const BenchSlot = ({ index, player, onDrop, onSlotClick, getRoleIcon, isSelected
 };
 
 export default SetFormationPage;
-                
