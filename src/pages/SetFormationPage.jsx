@@ -69,6 +69,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                 // ASSEGNAZIONE DELLO SPORT TYPE
                 const sport = championshipData.sport_type;
                 setSportType(sport);
+                // VARIABILE PER CALCIO A 5 (serve a nascondere i ruoli)
+                setIsFutsal(sportType === 'CALCIO_5');
 
                 const settings = getSettingsForSport(sport);
                 setGameSettings(settings);
@@ -152,8 +154,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
         loadData();
     }, [matchId, propChampionshipId, isPastMatch]);
     
-    // VARIABILE PER CALCIO A 5
-    setIsFutsal(sportType === 'CALCIO_5');
+    
     const handleSaveFormation = async () => {
         const filledStarters = starters.filter(Boolean);
         if (filledStarters.length !== gameSettings.starters) {
