@@ -128,7 +128,7 @@ const AddPlayersPage = () => {
   const confirmCreation = async () => {
     setConfirmCreate(false);
     let newStatus = '';
-    if (championshipStatus === '00') newStatus = '10';
+    if (championshipStatus === '00') newStatus = '20';
 
     // Assicura che il budget sia un numero prima di inviarlo
     const budgetAsNumber = parseFloat(championshipBudget);
