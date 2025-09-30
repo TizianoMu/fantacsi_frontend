@@ -439,7 +439,7 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
                     </div>
                 )}
                     </>
-                )
+                )}
             </div>
             <span className="player-list-name">{player.name}</span>
         </div>
