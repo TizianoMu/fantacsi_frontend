@@ -103,3 +103,32 @@ export async function deletePlayer(championshipId, playerId) {
     // La DELETE ora restituisce 204 No Content, quindi non c'è corpo JSON
     return { success: true, playerId: playerId };
 }
+
+
+export async function fetchPlayersDetailsByIds(playerIds) {
+    if (!playerIds || playerIds.length === 0) {
+        return [];
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/players/details`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ player_ids: playerIds })
+    });
+
+    if (!response.ok) {
+        // Tentiamo di leggere un messaggio di errore dal corpo
+        try {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || "Errore nel caricamento dei dettagli dei giocatori storici");
+        } catch (e) {
+            // Gestisce il caso in cui il corpo non sia JSON (es. 500 Internal Server Error)
+            throw new Error(`Errore HTTP ${response.status} nel caricamento dei dettagli dei giocatori storici`);
+        }
+    }
+    
+    return response.json();
+}
