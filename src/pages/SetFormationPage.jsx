@@ -154,9 +154,6 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     
     // VARIABILE PER CALCIO A 5
     const isFutsal = sportType === 'CALCIO_5';
-
-    // ... (Il resto del componente rimane invariato) ...
-
     const handleSaveFormation = async () => {
         const filledStarters = starters.filter(Boolean);
         if (filledStarters.length !== gameSettings.starters) {
@@ -431,7 +428,8 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
                 
                 {/* Se l'URL È disponibile, non inseriamo nulla all'interno del div,
                     lasciando lo sfondo visibile. */}
-
+                {!isFutsal && (
+                <>
                 <div className="player-list-role-icon-overlay">
                     <FontAwesomeIcon icon={getRoleIcon(player.role)} />
                 </div>
@@ -440,6 +438,8 @@ const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
                         <FontAwesomeIcon icon={getRoleIcon(player.second_role)} />
                     </div>
                 )}
+                    </>
+                )
             </div>
             <span className="player-list-name">{player.name}</span>
         </div>
