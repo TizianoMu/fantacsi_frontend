@@ -25,17 +25,17 @@ const SoccerField = ({
             '3-1': [
                 { x: 50, y: 86, role: 'PORTIERE' }, // GK
                 { x: 25, y: 70, role: 'DIFENSORE' }, { x: 50, y: 70, role: 'DIFENSORE' }, { x: 75, y: 70, role: 'DIFENSORE' }, // DEF
-                { x: 50, y: 15, role: 'ATTACCANTE' }  // FWD
+                { x: 50, y: 45, role: 'ATTACCANTE' }  // FWD
             ],
             '1-3': [
                 { x: 50, y: 86, role: 'PORTIERE' }, // GK
-                { x: 25, y: 70, role: 'DIFENSORE' }, // DEF
-                { x: 20, y: 25, role: 'ATTACCANTE' }, { x: 50, y: 25, role: 'ATTACCANTE' }, { x: 80, y: 25, role: 'ATTACCANTE' }
+                { x: 50, y: 70, role: 'DIFENSORE' }, // DEF
+                { x: 25, y: 45, role: 'CENTROCAMPISTA' }, { x: 50, y: 45, role: 'CENTROCAMPISTA' }, { x: 75, y: 45, role: 'CENTROCAMPISTA' }, // MID
             ],
             '2-2': [
                 { x: 50, y: 86, role: 'PORTIERE' }, // GK
-                { x: 25, y: 70, role: 'DIFENSORE' }, { x: 50, y: 70, role: 'DIFENSORE' },
-                { x: 20, y: 25, role: 'ATTACCANTE' }, { x: 50, y: 25, role: 'ATTACCANTE' }
+                { x: 35, y: 70, role: 'DIFENSORE' }, { x: 65, y: 70, role: 'DIFENSORE' },
+                { x: 35, y: 45, role: 'CENTROCAMPISTA' }, { x: 65, y: 45, role: 'CENTROCAMPISTA' },
             ],
             // Calcio a 7 (moduli originali rinominati per coerenza)
             '3-2-1': [
