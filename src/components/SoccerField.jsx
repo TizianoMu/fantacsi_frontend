@@ -202,12 +202,14 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
             onClick={() => onSlotClick('starter', index, player, pos.role)}
         >
             {/* Icona del ruolo sopra - sempre presente */}
+            {(!isFutsal || player) && (
             <div className="player-role-icon">
                 {/* Nasconde l'icona del ruolo se lo slot è vuoto e siamo in Calcio a 5 */}
-                {(!isFutsal || player) && (
+                
                     <FontAwesomeIcon icon={getRoleIcon(player ? player.role : pos.role)} />
-                )}
+                
             </div>
+            )}
             {player && (
                 <>
                     {/* Nome del giocatore */}
@@ -220,7 +222,6 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
                             e.stopPropagation(); // Evita di attivare onSlotClick
                             onSlotClick('starter', index, player, pos.role); // Rimuove il giocatore
                         }}>
-                            <FontAwesomeIcon icon={faTimesCircle} />
                         </div>
                     )}
                     {/* Voto del giocatore (solo se è una partita passata) */}
