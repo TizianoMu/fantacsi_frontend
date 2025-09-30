@@ -202,7 +202,7 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
             onClick={() => onSlotClick('starter', index, player, pos.role)}
         >
             {/* Icona del ruolo sopra - sempre presente */}
-            {(!isFutsal || player) && (
+            {(!isFutsal && player) && (
             <div className="player-role-icon">
                 {/* Nasconde l'icona del ruolo se lo slot è vuoto e siamo in Calcio a 5 */}
                 
