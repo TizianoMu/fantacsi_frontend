@@ -2,8 +2,8 @@ export const GAME_SETTINGS = {
     CALCIO_5: {
         starters: 5,
         reserves: 3,
-        modules: ['1-2-1'],
-        defaultModule: '1-2-1',
+        modules: ['3-1','2-2','1-3'],
+        defaultModule: '3-1',
     },
     CALCIO_7: {
         starters: 7,
