@@ -44,7 +44,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     const [reserves, setReserves] = useState(Array(gameSettings.reserves).fill(null));
     const [module, setModule] = useState(gameSettings.defaultModule);
     const [selectedSlot, setSelectedSlot] = useState(null); // Nuovo stato per lo slot selezionato
-
+    const [isFutsal,setIsFutsal] = useState(false)
     const showAppNotification = (message) => {
         setNotification({ show: true, message });
         setTimeout(() => {
@@ -153,7 +153,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     }, [matchId, propChampionshipId, isPastMatch]);
     
     // VARIABILE PER CALCIO A 5
-    const isFutsal = sportType === 'CALCIO_5';
+    setIsFutsal(sportType === 'CALCIO_5');
     const handleSaveFormation = async () => {
         const filledStarters = starters.filter(Boolean);
         if (filledStarters.length !== gameSettings.starters) {
