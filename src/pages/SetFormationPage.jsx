@@ -70,7 +70,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                 const sport = championshipData.sport_type;
                 setSportType(sport);
                 // VARIABILE PER CALCIO A 5 (serve a nascondere i ruoli)
-                setIsFutsal(sportType === 'CALCIO_5');
+                setIsFutsal(sport === 'CALCIO_5');
 
                 const settings = getSettingsForSport(sport);
                 setGameSettings(settings);
