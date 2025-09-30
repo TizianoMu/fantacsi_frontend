@@ -22,11 +22,20 @@ const SoccerField = ({
         // Definizioni complete dei moduli
         const positions = {
             // Calcio a 5
-            '1-2-1': [
+            '3-1': [
                 { x: 50, y: 86, role: 'PORTIERE' }, // GK
-                { x: 30, y: 65, role: 'DIFENSORE' }, { x: 70, y: 65, role: 'DIFENSORE' }, // DEF
-                { x: 50, y: 40, role: 'CENTROCAMPISTA' }, // MID
+                { x: 25, y: 70, role: 'DIFENSORE' }, { x: 50, y: 70, role: 'DIFENSORE' }, { x: 75, y: 70, role: 'DIFENSORE' }, // DEF
                 { x: 50, y: 15, role: 'ATTACCANTE' }  // FWD
+            ],
+            '1-3': [
+                { x: 50, y: 86, role: 'PORTIERE' }, // GK
+                { x: 25, y: 70, role: 'DIFENSORE' }, // DEF
+                { x: 20, y: 25, role: 'ATTACCANTE' }, { x: 50, y: 25, role: 'ATTACCANTE' }, { x: 80, y: 25, role: 'ATTACCANTE' }
+            ],
+            '2-2': [
+                { x: 50, y: 86, role: 'PORTIERE' }, // GK
+                { x: 25, y: 70, role: 'DIFENSORE' }, { x: 50, y: 70, role: 'DIFENSORE' },
+                { x: 20, y: 25, role: 'ATTACCANTE' }, { x: 50, y: 25, role: 'ATTACCANTE' }
             ],
             // Calcio a 7 (moduli originali rinominati per coerenza)
             '3-2-1': [
