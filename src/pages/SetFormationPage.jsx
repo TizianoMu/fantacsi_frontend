@@ -347,7 +347,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                                 {!isFutsal && <h5 className="hide-on-mobile">{role}</h5>}
                                 <div className="role-group-players">
                                     {playersByRole[role].map(player => (
-                                        <DraggablePlayerListItem key={player.id} player={player} getRoleIcon={getRoleIcon} getSecondRoleIcon={getRoleIcon} onPlayerClick={handlePlayerListClick} />
+                                        <DraggablePlayerListItem key={player.id} player={player} getRoleIcon={getRoleIcon} getSecondRoleIcon={getRoleIcon} onPlayerClick={handlePlayerListClick} isFutsal={isFutsal} />
                                     ))}
                                 </div>
                             </div>
@@ -367,7 +367,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                         selectedSlot={selectedSlot} 
                         isPastMatch={isPastMatch} 
                         playerStats={playerStats} 
-                        isFutsal={isFutsal} // NUOVA PROP PASSATA
+                        isFutsal={isFutsal}
                     />
                     {/* Su mobile, la panchina è renderizzata accanto al campo */}
                     {isMobile && <BenchPanel reserves={reserves} playerDetails={playerDetails} onDrop={handleDropOnSlot} onSlotClick={handleSlotClick} getRoleIcon={getRoleIcon} selectedSlot={selectedSlot} isPastMatch={isPastMatch} playerStats={playerStats} />}
@@ -402,7 +402,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
 
 // --- DraggablePlayerListItem, BenchPanel, getVoteClass, BenchSlot (Non modificati) ---
 
-const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick }) => {
+const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick, isFutsal }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: ItemTypes.PLAYER,
         item: { player },
