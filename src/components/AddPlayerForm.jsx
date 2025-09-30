@@ -13,6 +13,7 @@ const AddPlayerForm = ({
   handlePhotoClick,
   handleRemovePhoto,
   photoRequiredError, // nuovo prop per errore foto
+  isFutsal
 }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -90,6 +91,7 @@ const AddPlayerForm = ({
           className="input-field"
         />
       </div>
+      {!isFutsal && (
       <div className="form-group">
         <label htmlFor="role">Ruolo <span style={{ color: 'red' }}>*</span></label>
         <select
@@ -123,6 +125,7 @@ const AddPlayerForm = ({
           <option value="ATTACCANTE">Attaccante</option>
         </select>
       </div>
+    )}
       <div className="form-group">
         <label htmlFor="value">Valore <span style={{ color: 'red' }}>*</span></label>
         <input
