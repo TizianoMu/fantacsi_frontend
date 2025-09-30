@@ -45,13 +45,14 @@ const AddPlayersPage = () => {
   // Stati per il cropper integrato
   const [imageToCrop, setImageToCrop] = useState(null);
   const [modalView, setModalView] = useState('form'); // 'form' o 'cropper'
-
+  const [isFutsal,setIsFutsal] = useState(false)
   useEffect(() => {
     const loadChampionshipName = async () => {
       try {
         const details = await fetchChampionshipDetails(championshipId);
         setChampionshipName(details.name);
         setChampionshipType(details.sport_type);
+        setIsFutsal(sport_type === 'CALCIO_5');
         setChampionshipStatus(details.status);
         setChampionshipBudget(details.budget_per_user || 1000);
       } catch (error) {
@@ -291,9 +292,11 @@ const AddPlayersPage = () => {
                   {!player.is_active && (
                     <div className="disabled-overlay"></div>
                   )}
+                  { !isFutsal && (
                   <div className="role-label">
                     <FontAwesomeIcon icon={getRoleIcon(player.role)} />
                   </div>
+                  )}
                   <div className="value-label">
                     {player.initial_value}
                   </div>
@@ -375,6 +378,7 @@ const AddPlayersPage = () => {
             handlePhotoClick={handlePhotoClick}
             handleRemovePhoto={handleRemovePhoto}
             photoRequiredError={photoRequiredError}
+            isFutsal={isFutsal}
           />
         ) : (
           <ImageCropper
