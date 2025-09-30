@@ -6,9 +6,9 @@ import ImageCropper from '../components/ImageCropper';
 import { MAX_FILE_SIZE_MB } from '../utils/constants';
 
 const sportTypes = [
-  //{ value: 'CALCIO_5', label: 'Calcio a 5' },
+  { value: 'CALCIO_5', label: 'Calcio a 5' },
   { value: 'CALCIO_7', label: 'Calcio a 7' },
-  //{ value: 'CALCIO_11', label: 'Calcio a 11' },
+  { value: 'CALCIO_11', label: 'Calcio a 11' },
 ];
 
 const CreateChampionshipPage = () => {
