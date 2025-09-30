@@ -52,7 +52,7 @@ const AddPlayersPage = () => {
         const details = await fetchChampionshipDetails(championshipId);
         setChampionshipName(details.name);
         setChampionshipType(details.sport_type);
-        setIsFutsal(sport_type === 'CALCIO_5');
+        setIsFutsal(details.sport_type === 'CALCIO_5');
         setChampionshipStatus(details.status);
         setChampionshipBudget(details.budget_per_user || 1000);
       } catch (error) {
