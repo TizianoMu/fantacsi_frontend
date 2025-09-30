@@ -36,6 +36,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
 
     // Impostazioni di gioco dinamiche
     const [gameSettings, setGameSettings] = useState(getSettingsForSport('CALCIO_7'));
+    // STATO AGGIUNTO PER LO SPORT TYPE
+    const [sportType, setSportType] = useState(null); 
 
     // Dati formazione
     const [starters, setStarters] = useState(Array(gameSettings.starters).fill(null));
@@ -63,7 +65,12 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
 
                 // Carica i dettagli del campionato per ottenere il tipo di sport
                 const championshipData = await fetchChampionshipDetails(currentChampionshipId);
-                const settings = getSettingsForSport(championshipData.sport_type);
+                
+                // ASSEGNAZIONE DELLO SPORT TYPE
+                const sport = championshipData.sport_type;
+                setSportType(sport);
+
+                const settings = getSettingsForSport(sport);
                 setGameSettings(settings);
                 setModule(settings.defaultModule); // Imposta il modulo di default
 
@@ -144,6 +151,9 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
 
         loadData();
     }, [matchId, propChampionshipId, isPastMatch]);
+    
+    // VARIABILE PER CALCIO A 5
+    const isFutsal = sportType === 'CALCIO_5';
 
     // ... (Il resto del componente rimane invariato) ...
 
@@ -208,7 +218,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
         const targetPlayerId = targetSlotType === 'starter' ? newStarters[targetSlotIndex] : newReserves[targetSlotIndex];
 
         // 3. VALIDAZIONI
-        if (targetSlotType === 'starter') {
+        // MODIFICA QUI: Ignora la validazione dei ruoli se è Calcio a 5
+        if (targetSlotType === 'starter' && !isFutsal) { 
             const targetPlayer = playerDetails[targetPlayerId];
             if (!targetPlayer && requiredRole && draggedPlayer.role !== requiredRole && draggedPlayer.second_role !== requiredRole) {
                 showAppNotification(`Puoi inserire solo un ${requiredRole.toLowerCase()} in questa posizione.`);
@@ -219,6 +230,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                 return;
             }
         }
+        // FINE MODIFICA
 
         // 4. ESECUZIONE DELLO SPOSTAMENTO/SCAMBIO
         // Posiziona il giocatore trascinato nella sua nuova posizione
@@ -238,7 +250,7 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
         // 5. Applica gli aggiornamenti di stato
         setStarters(newStarters);
         setReserves(newReserves);
-    }, [starters, reserves, playerDetails]);
+    }, [starters, reserves, playerDetails, isFutsal]); // AGGIUNTO isFutsal alle dipendenze
 
     const handleRemovePlayer = useCallback((slotType, slotIndex) => {
         if (isPastMatch) return; // Non permettere rimozione per partite passate
@@ -298,8 +310,11 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
             return acc;
         }, {});
 
-        return Object.keys(grouped).sort((a, b) => ['PORTIERE', 'DIFENSORE', 'CENTROCAMPISTA', 'ATTACCANTE'].indexOf(a) - ['PORTIERE', 'DIFENSORE', 'CENTROCAMPISTA', 'ATTACCANTE'].indexOf(b)).reduce((acc, key) => { acc[key] = grouped[key]; return acc; }, {});
-    }, [teamPlayers, starters, reserves]);
+        // Raggruppa per ruolo se NON è Calcio a 5, altrimenti mostra tutti i ruoli in ordine alfabetico
+        const roleOrder = isFutsal ? Object.keys(grouped).sort() : ['PORTIERE', 'DIFENSORE', 'CENTROCAMPISTA', 'ATTACCANTE'];
+
+        return roleOrder.filter(key => grouped[key]).reduce((acc, key) => { acc[key] = grouped[key]; return acc; }, {});
+    }, [teamPlayers, starters, reserves, isFutsal]); // AGGIUNTO isFutsal
 
     const isSaveDisabled = starters.filter(Boolean).length !== gameSettings.starters;
 
@@ -330,7 +345,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
                     {Object.keys(playersByRole).map((role, index) => (
                         <React.Fragment key={role}>
                             <div className="role-group-list">
-                                <h5 className="hide-on-mobile">{role}</h5>
+                                {/* Visualizza il ruolo solo se NON è Calcio a 5 */}
+                                {!isFutsal && <h5 className="hide-on-mobile">{role}</h5>}
                                 <div className="role-group-players">
                                     {playersByRole[role].map(player => (
                                         <DraggablePlayerListItem key={player.id} player={player} getRoleIcon={getRoleIcon} getSecondRoleIcon={getRoleIcon} onPlayerClick={handlePlayerListClick} />
@@ -343,7 +359,18 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
 
                 {/* Colonna Centrale: Campo */}
                 <div className="field-panel">
-                    <SoccerField module={module} starters={starters} onDrop={handleDropOnSlot} onSlotClick={handleSlotClick} playerDetails={playerDetails} getRoleIcon={getRoleIcon} selectedSlot={selectedSlot} isPastMatch={isPastMatch} playerStats={playerStats} />
+                    <SoccerField 
+                        module={module} 
+                        starters={starters} 
+                        onDrop={handleDropOnSlot} 
+                        onSlotClick={handleSlotClick} 
+                        playerDetails={playerDetails} 
+                        getRoleIcon={getRoleIcon} 
+                        selectedSlot={selectedSlot} 
+                        isPastMatch={isPastMatch} 
+                        playerStats={playerStats} 
+                        isFutsal={isFutsal} // NUOVA PROP PASSATA
+                    />
                     {/* Su mobile, la panchina è renderizzata accanto al campo */}
                     {isMobile && <BenchPanel reserves={reserves} playerDetails={playerDetails} onDrop={handleDropOnSlot} onSlotClick={handleSlotClick} getRoleIcon={getRoleIcon} selectedSlot={selectedSlot} isPastMatch={isPastMatch} playerStats={playerStats} />}
                 </div>
