@@ -473,6 +473,18 @@ body,
   background: var(--primary-color);
 }
 
+.view-button.today-button {
+  background: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.view-button.today-button:disabled {
+  background: #f0f0f0;
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
 .nav-button {
   background: var(--primary-color);
   color: white;
@@ -1256,6 +1268,20 @@ body,
     .calendar-day.non-admin {
       cursor: default;
     }
+}
+
+/* Stile per evidenziare il giorno corrente */
+.day-number .today {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: bold;
 }
 
 /* Media query per l'editor degli stemmi su mobile */

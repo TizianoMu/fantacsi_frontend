@@ -96,8 +96,10 @@ const CalendarPage = () => {
       days.push(new Date(year, month, i));
     }
 
-    // Calcola i giorni del mese successivo per il padding finale
-    const daysToPadEnd = 42 - days.length; // 6 settimane * 7 giorni
+    // Calcola i giorni del mese successivo per completare l'ultima settimana fino a domenica.
+    // Se days.length è un multiplo di 7, la griglia è già completa.
+    const daysToPadEnd = (7 - (days.length % 7)) % 7;
+
     for (let i = 1; i <= daysToPadEnd; i++) {
       days.push(new Date(year, month + 1, i));
     }
@@ -134,6 +136,11 @@ const CalendarPage = () => {
     } else {
       setCurrentDate(prevDate => new Date(prevDate.getFullYear(), prevDate.getMonth(), prevDate.getDate() - 7));
     }
+  };
+
+  // Handles returning to the current date.
+  const handleGoToToday = () => {
+    setCurrentDate(new Date());
   };
 
   // Handles switching the view mode.
@@ -208,7 +215,13 @@ const CalendarPage = () => {
   };
 
   // Render the calendar and modal.
+  const today = new Date();
   const daysToRender = viewMode === 'monthly' ? getDaysInMonth(currentDate) : getDaysInWeek(currentDate);
+
+  // Check if the current view is already on the current month and year.
+  const isCurrentMonthView =
+    currentDate.getMonth() === today.getMonth() &&
+    currentDate.getFullYear() === today.getFullYear();
 
   return (
     <div className="central-box">
@@ -241,6 +254,11 @@ const CalendarPage = () => {
                 }
               </h2>
               <div className="view-buttons">
+                <button
+                  onClick={handleGoToToday}
+                  className="view-button today-button"
+                  disabled={isCurrentMonthView}
+                >Oggi</button>
                 <button onClick={() => handleViewChange('weekly')} className={`view-button${viewMode === 'weekly' ? ' active' : ''}`}>Settimana</button>
                 <button onClick={() => handleViewChange('monthly')} className={`view-button${viewMode === 'monthly' ? ' active' : ''}`}>Mese</button>
               </div>
@@ -264,20 +282,26 @@ const CalendarPage = () => {
               </div>
             )}
             <div className={`day-cells ${viewMode === 'weekly' ? 'weekly' : ''}`}>
-              {daysToRender.map(date => (
-                <Day
-                  key={date.toISOString()}
-                  date={date}
-                  events={events}
-                  onDayClick={handleDayClick}
-                  onEditEvent={handleEditClick}
-                  isMobile={isMobile}
-                  viewMode={viewMode}
-                  championshipDisplayName={championshipDetails?.alias || championshipDetails?.name}
-                  isAdmin={isAdmin}
-                  isOutsideMonth={date.getMonth() !== currentDate.getMonth()}
-                />
-              ))}
+              {daysToRender.map(date => {
+                const isToday = date.getDate() === today.getDate() &&
+                                date.getMonth() === today.getMonth() &&
+                                date.getFullYear() === today.getFullYear();
+                return (
+                  <Day
+                    key={date.toISOString()}
+                    date={date}
+                    events={events}
+                    onDayClick={handleDayClick}
+                    onEditEvent={handleEditClick}
+                    isMobile={isMobile}
+                    viewMode={viewMode}
+                    championshipDisplayName={championshipDetails?.alias || championshipDetails?.name}
+                    isAdmin={isAdmin}
+                    isOutsideMonth={date.getMonth() !== currentDate.getMonth()}
+                    isToday={isToday}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
