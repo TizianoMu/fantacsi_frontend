@@ -45,8 +45,7 @@ const Day = ({
         {dailyEvents.map(event => {
           const eventClasses = [
             'event-item',
-            isEventOver(event.date) ? 'past-event' : '',
-            isMobile ? 'marquee' : '' // Aggiunge la classe per l'effetto marquee su mobile
+            isEventOver(event.date) ? 'past-event' : ''
           ].filter(Boolean).join(' ');
 
           return (
@@ -57,9 +56,11 @@ const Day = ({
                   <FontAwesomeIcon icon={faFutbol} />
                   {event.manager_id && <FontAwesomeIcon icon={faUserCheck} style={{ color: 'white' }} />}
               </span>
-              {/* Mostra il testo su desktop */}
-              <span className="event-text">
-                {isEventOver(event.date) && event.home_team_goal !== null ? `${event.home_team} ${event.home_team_goal} - ${event.away_team_goal} ${event.away_team}` : `${event.home_team} vs ${event.away_team}`}
+              {/* Mostra il testo su desktop, con effetto marquee se necessario */}
+              <span className="event-text marquee">
+                  {isEventOver(event.date) && event.home_team_goal !== null 
+                    ? `${event.home_team} ${event.home_team_goal} - ${event.away_team_goal} ${event.away_team}` 
+                    : `${event.home_team} vs ${event.away_team}`}
               </span>
             </div>
           );

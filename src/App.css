@@ -558,6 +558,7 @@ body,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 0; /* FIX: Impedisce alla cella di espandersi oltre la sua larghezza definita */
   cursor: pointer;
   transition: box-shadow 0.2s;
 }
@@ -598,6 +599,8 @@ body,
   font-size: 0.95em;
   cursor: pointer;
   transition: background 0.2s;
+  overflow: hidden; /* Nasconde il testo che esce per l'effetto marquee */
+  position: relative;
 }
 
 .event-icons {
@@ -2742,13 +2745,6 @@ body,
   .calendar-day {
     min-height: 100px; /* Altezza minima per contenere gli eventi */
     padding: 0.3rem;
-  }
-  /* Su mobile, il testo ha l'effetto marquee, le icone sono nascoste */
-  .event-item .event-text {
-    display: inline-block; /* Necessario per l'animazione */
-  }
-  .event-item .event-icons {
-    display: none; /* Nascondi le icone su mobile */
   }
 }
 /* Su desktop, nascondi le icone e mostra il testo */
