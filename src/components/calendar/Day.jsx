@@ -59,7 +59,6 @@ const Day = ({
               {/* Mostra il testo su desktop */}
               <span className="event-text">
                 {isEventOver(event.date) && event.home_team_goal !== null ? `${event.home_team} ${event.home_team_goal} - ${event.away_team_goal} ${event.away_team}` : `${event.home_team} vs ${event.away_team}`}
-                {event.manager_id && <FontAwesomeIcon icon={faUserCheck} style={{ color: 'white' }} />}
               </span>
             </div>
           );

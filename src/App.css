@@ -2743,12 +2743,12 @@ body,
     min-height: 100px; /* Altezza minima per contenere gli eventi */
     padding: 0.3rem;
   }
-  /* Nascondi il testo dell'evento e mostra solo le icone */
+  /* Su mobile, mostra il testo e nascondi le icone (il testo è ora scorrevole) */
   .event-item .event-text {
-    display: none;
+    display: flex;
   }
   .event-item .event-icons {
-    display: flex;
+    display: none;
   }
 }
 /* Su desktop, nascondi le icone e mostra il testo */
