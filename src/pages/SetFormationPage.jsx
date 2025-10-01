@@ -400,8 +400,6 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     );
 });
 
-// --- DraggablePlayerListItem, BenchPanel, getVoteClass, BenchSlot (Non modificati) ---
-
 const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick, isFutsal }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: ItemTypes.PLAYER,
@@ -461,13 +459,6 @@ const BenchPanel = ({ reserves, playerDetails, onDrop, onSlotClick, getRoleIcon,
     );
 };
 
-const getVoteClass = (vote) => {
-    if (vote === null) return 'vote-sv'; // Senza Voto
-    if (vote >= 6.5) return 'vote-good';
-    if (vote >= 6.0) return 'vote-sufficient';
-    return 'vote-bad';
-};
-
 const BenchSlot = ({ index, player, onDrop, onSlotClick, getRoleIcon, isSelected, isPastMatch, playerStats }) => {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: ItemTypes.PLAYER,
@@ -499,7 +490,7 @@ const BenchSlot = ({ index, player, onDrop, onSlotClick, getRoleIcon, isSelected
                     </div>
                     <span className="player-in-slot-name">{player.name.split(' ').pop()}</span>
                     {isPastMatch && playerStats[player.id] && (
-                        <span className={`player-vote ${getVoteClass(playerStats[player.id].vote)}`}>
+                        <span className={`player-vote`}>
                             {playerStats[player.id].vote !== null ? playerStats[player.id].vote.toFixed(1) : 'SV'}
                         </span>
                     )}

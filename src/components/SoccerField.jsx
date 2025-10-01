@@ -226,7 +226,7 @@ const PlayerSlot = ({ index, pos, player, onDrop, onSlotClick, getRoleIcon, isSe
                     )}
                     {/* Voto del giocatore (solo se è una partita passata) */}
                     {isPastMatch && playerStats[player.id] && (
-                        <span className={`player-vote ${getVoteClass(playerStats[player.id].vote)}`} style={{ backgroundColor: voteColor }}>
+                        <span className={`player-vote`} style={{ backgroundColor: voteColor }}>
                             {voteText}
                         </span>
                     )}
