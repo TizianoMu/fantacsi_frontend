@@ -2784,5 +2784,5 @@ body,
 
 .outside-month {
   background: #eaeaea;
-  color: #888;
+  color: #888 !important;
 }
