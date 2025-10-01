@@ -218,10 +218,23 @@ const CalendarPage = () => {
   const today = new Date();
   const daysToRender = viewMode === 'monthly' ? getDaysInMonth(currentDate) : getDaysInWeek(currentDate);
 
-  // Check if the current view is already on the current month and year.
-  const isCurrentMonthView =
-    currentDate.getMonth() === today.getMonth() &&
-    currentDate.getFullYear() === today.getFullYear();
+  // Check if the "Today" button should be disabled.
+  const isTodayButtonDisabled = (() => {
+    const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    if (viewMode === 'monthly') {
+      return currentDate.getMonth() === today.getMonth() &&
+             currentDate.getFullYear() === today.getFullYear();
+    }
+    // For weekly view, check if today is within the currently displayed week.
+    const dayOfWeek = currentDate.getDay();
+    const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const startOfWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - diff);
+    const endOfWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 6);
+
+    return todayWithoutTime >= startOfWeek && todayWithoutTime <= endOfWeek;
+  })();
+
 
   return (
     <div className="central-box">
@@ -237,39 +250,29 @@ const CalendarPage = () => {
               <h2 className="title">{championshipDetails?.name}</h2>
             </div>
           <div className="calendar-controls">
-            <button
-              onClick={handlePrev}
-              className="nav-button"
-              aria-label="Precedente"
-            >
-              &#x2039;
-            </button>
-            <div className="view-and-title">
-              <h2 className="title calendar-title">
-                {viewMode === 'monthly'
-                  ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-                  : isMobile
-                    ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-                    : 'Settimana dal ' + currentDate.toLocaleDateString('default', { day: '2-digit', month: 'short' }) + ' al ' + new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 6).toLocaleDateString('default', { day: '2-digit', month: 'short' })
-                }
-              </h2>
-              <div className="view-buttons">
-                <button
-                  onClick={handleGoToToday}
-                  className="view-button today-button"
-                  disabled={isCurrentMonthView}
-                >Oggi</button>
-                <button onClick={() => handleViewChange('weekly')} className={`view-button${viewMode === 'weekly' ? ' active' : ''}`}>Settimana</button>
-                <button onClick={() => handleViewChange('monthly')} className={`view-button${viewMode === 'monthly' ? ' active' : ''}`}>Mese</button>
-              </div>
+            <div className="calendar-nav-group">
+              <button onClick={handlePrev} className="nav-button" aria-label="Precedente">&#x2039;</button>
+              <button
+                onClick={handleGoToToday}
+                className="view-button today-button"
+                disabled={isTodayButtonDisabled}
+              >Oggi</button>
+              <button onClick={handleNext} className="nav-button" aria-label="Successivo">&#x203A;</button>
             </div>
-            <button
-              onClick={handleNext}
-              className="nav-button"
-              aria-label="Successivo"
-            >
-              &#x203A;
-            </button>
+
+            <h2 className="title calendar-title">
+              {viewMode === 'monthly'
+                ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
+                : isMobile
+                  ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
+                  : 'Settimana dal ' + currentDate.toLocaleDateString('default', { day: '2-digit', month: 'short' }) + ' al ' + new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 6).toLocaleDateString('default', { day: '2-digit', month: 'short' })
+              }
+            </h2>
+
+            <div className="view-buttons">
+              <button onClick={() => handleViewChange('weekly')} className={`view-button${viewMode === 'weekly' ? ' active' : ''}`}>Settimana</button>
+              <button onClick={() => handleViewChange('monthly')} className={`view-button${viewMode === 'monthly' ? ' active' : ''}`}>Mese</button>
+            </div>
           </div>
           {/* La griglia del calendario, che si adatta alla vista settimanale/mensile e mobile/desktop */}
           <div className={`calendar-grid ${isMobile && viewMode === 'weekly' ? 'mobile-weekly-view' : ''}`}>

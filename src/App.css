@@ -441,20 +441,22 @@ body,
   margin-bottom: 1.5rem;
 }
 
-.view-and-title {
-  flex: 1;
-  text-align: center;
+.calendar-nav-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .calendar-title {
-  margin-bottom: 0.5rem;
+  margin: 0;
+  font-size: 1.5rem;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .view-buttons {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 0.5rem;
+  border-radius: 6px;
 }
 
 .view-button {
@@ -462,10 +464,18 @@ body,
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 0.3rem 1rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 1rem;
   transition: background 0.3s;
+  border: 1px solid var(--secondary-color);
+}
+
+.view-buttons .view-button {
+  border-radius: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  padding: 0.5rem 1rem;
 }
 
 .view-button.active,
@@ -473,10 +483,20 @@ body,
   background: var(--primary-color);
 }
 
+.view-buttons .view-button:first-child {
+  border-radius: 6px 0 0 6px;
+  border-left-width: 1px;
+}
+
+.view-buttons .view-button:last-child {
+  border-radius: 0 6px 6px 0;
+  border-right-width: 1px;
+}
+
 .view-button.today-button {
   background: white;
   color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  border: 1px solid #ddd;
 }
 
 .view-button.today-button:disabled {
@@ -1268,6 +1288,15 @@ body,
     .calendar-day.non-admin {
       cursor: default;
     }
+}
+
+/* Stile per gli eventi passati */
+.event-item.past-event {
+  opacity: 0.65;
+}
+
+.event-item.past-event:hover {
+  opacity: 0.85; /* Mantiene un feedback al passaggio del mouse */
 }
 
 /* Stile per evidenziare il giorno corrente */

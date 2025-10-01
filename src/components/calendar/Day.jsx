@@ -42,12 +42,15 @@ const Day = ({
         <span className={isToday ? 'today' : ''}>{date.getDate()}</span>
       </div>
       <div className="day-events">
-        {dailyEvents.map(event => (
-          <div
-            key={event.id}
-            className="event-item"
-            onClick={(e) => { e.stopPropagation(); onEditEvent(event); }}
-          >
+        {dailyEvents.map(event => {
+          const eventClasses = [
+            'event-item',
+            isEventOver(event.date) ? 'past-event' : ''
+          ].filter(Boolean).join(' ');
+
+          return (
+            <div key={event.id} className={eventClasses} onClick={(e) => { e.stopPropagation(); onEditEvent(event); }}>
+
             {isMobile && viewMode === 'monthly' ? (
               <div className="event-icons">
                 {event.home_team === championshipDisplayName ? <FontAwesomeIcon icon={faHome} /> : <FontAwesomeIcon icon={faPlane} />}
@@ -60,12 +63,12 @@ const Day = ({
                 {event.manager_id && <FontAwesomeIcon icon={faUserCheck} style={{ color: 'white' }} />}
               </span>
             )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
 export default Day;
-
