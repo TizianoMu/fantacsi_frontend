@@ -45,7 +45,8 @@ const Day = ({
         {dailyEvents.map(event => {
           const eventClasses = [
             'event-item',
-            isEventOver(event.date) ? 'past-event' : ''
+            isEventOver(event.date) ? 'past-event' : '',
+            isMobile ? 'marquee' : '' // Aggiunge la classe per l'effetto marquee su mobile
           ].filter(Boolean).join(' ');
 
           return (

@@ -2743,12 +2743,12 @@ body,
     min-height: 100px; /* Altezza minima per contenere gli eventi */
     padding: 0.3rem;
   }
-  /* Su mobile, mostra il testo e nascondi le icone (il testo è ora scorrevole) */
+  /* Su mobile, il testo ha l'effetto marquee, le icone sono nascoste */
   .event-item .event-text {
-    display: flex;
+    display: inline-block; /* Necessario per l'animazione */
   }
   .event-item .event-icons {
-    display: none;
+    display: none; /* Nascondi le icone su mobile */
   }
 }
 /* Su desktop, nascondi le icone e mostra il testo */
@@ -2785,4 +2785,18 @@ body,
 .outside-month {
   background: #eaeaea;
   color: #888 !important;
+}
+
+/* Contenitore per l'animazione marquee */
+.marquee .event-text {
+  /* Anima solo se il testo è più lungo del contenitore */
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 10s linear infinite;
+  padding-left: 100%; /* Inizia l'animazione fuori dallo schermo */
+}
+
+@keyframes marquee {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-100%); }
 }
