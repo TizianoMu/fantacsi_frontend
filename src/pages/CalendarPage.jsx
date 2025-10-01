@@ -73,15 +73,35 @@ const CalendarPage = () => {
     checkPermissionsAndLoadData();
   }, [championshipId]);
 
-  // Generates an array of dates for the current month.
+  // Generates an array of dates for the current month, padded to start on a Monday.
   const getDaysInMonth = (date) => {
-    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    const daysInMonth = endOfMonth.getDate();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
     const days = [];
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(new Date(date.getFullYear(), date.getMonth(), i));
+
+    // Calcola i giorni del mese precedente per il padding iniziale
+    // getDay() -> 0:Dom, 1:Lun, ..., 6:Sab. Vogliamo che la settimana inizi di Lunedì.
+    const startDayOfWeek = firstDayOfMonth.getDay(); // 0 per Domenica, 1 per Lunedì
+    const daysToPadStart = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
+
+    for (let i = daysToPadStart; i > 0; i--) {
+      days.push(new Date(year, month, 1 - i));
     }
+
+    // Aggiunge i giorni del mese corrente
+    for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+      days.push(new Date(year, month, i));
+    }
+
+    // Calcola i giorni del mese successivo per il padding finale
+    const daysToPadEnd = 42 - days.length; // 6 settimane * 7 giorni
+    for (let i = 1; i <= daysToPadEnd; i++) {
+      days.push(new Date(year, month + 1, i));
+    }
+
     return days;
   };
 
@@ -238,15 +258,9 @@ const CalendarPage = () => {
             {/* L'intestazione con i giorni della settimana viene mostrata solo se non siamo in vista settimanale su mobile */}
             {!(isMobile && viewMode === 'weekly') && (
               <div className="grid-header">
-                {viewMode === 'weekly' ? (
-                  <>
-                    <div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div>
-                  </>
-                ) : (
-                  <>
-                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                  </>
-                )}
+                {['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'].map(day => (
+                  <div key={day}>{day}</div>
+                ))}
               </div>
             )}
             <div className={`day-cells ${viewMode === 'weekly' ? 'weekly' : ''}`}>
@@ -261,6 +275,7 @@ const CalendarPage = () => {
                   viewMode={viewMode}
                   championshipDisplayName={championshipDetails?.alias || championshipDetails?.name}
                   isAdmin={isAdmin}
+                  isOutsideMonth={date.getMonth() !== currentDate.getMonth()}
                 />
               ))}
             </div>

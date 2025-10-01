@@ -11,7 +11,8 @@ const Day = ({
   isMobile,
   viewMode,
   championshipDisplayName,
-  isAdmin }) => {
+  isAdmin,
+  isOutsideMonth }) => {
   // Checks if the event date is in the past.
   const isEventOver = (date) => new Date(date) < new Date();
   const dailyEvents = events.filter(event =>
@@ -21,7 +22,7 @@ const Day = ({
   );
   return (
     <div
-      className={`calendar-day ${!isAdmin ? 'non-admin' : ''}`}
+      className={`calendar-day ${!isAdmin ? 'non-admin' : ''} ${isOutsideMonth ? 'outside-month' : ''}`}
       onClick={() => isAdmin && onDayClick(date)}
     >
       <div className="day-number">

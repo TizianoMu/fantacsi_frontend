@@ -2683,3 +2683,8 @@ body,
     font-weight: bold;
     text-shadow: 0.5px 0.5px 1px #000;
 }
+
+
+.outside-month {
+  background: #eaeaea;
+}
