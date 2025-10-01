@@ -250,28 +250,26 @@ const CalendarPage = () => {
               <h2 className="title">{championshipDetails?.name}</h2>
             </div>
           <div className="calendar-controls">
-            <div className="calendar-nav-group">
-              <button onClick={handlePrev} className="nav-button" aria-label="Precedente">&#x2039;</button>
+            <div className="calendar-actions-group">
               <button
                 onClick={handleGoToToday}
                 className="view-button today-button"
                 disabled={isTodayButtonDisabled}
               >Oggi</button>
-              <button onClick={handleNext} className="nav-button" aria-label="Successivo">&#x203A;</button>
+              <div className="view-buttons">
+                <button onClick={() => handleViewChange('weekly')} className={`view-button${viewMode === 'weekly' ? ' active' : ''}`}>Settimana</button>
+                <button onClick={() => handleViewChange('monthly')} className={`view-button${viewMode === 'monthly' ? ' active' : ''}`}>Mese</button>
+              </div>
             </div>
-
-            <h2 className="title calendar-title">
-              {viewMode === 'monthly'
-                ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-                : isMobile
-                  ? currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })
-                  : 'Settimana dal ' + currentDate.toLocaleDateString('default', { day: '2-digit', month: 'short' }) + ' al ' + new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 6).toLocaleDateString('default', { day: '2-digit', month: 'short' })
-              }
-            </h2>
-
-            <div className="view-buttons">
-              <button onClick={() => handleViewChange('weekly')} className={`view-button${viewMode === 'weekly' ? ' active' : ''}`}>Settimana</button>
-              <button onClick={() => handleViewChange('monthly')} className={`view-button${viewMode === 'monthly' ? ' active' : ''}`}>Mese</button>
+            <div className="calendar-title-nav">
+              <button onClick={handlePrev} className="nav-button" aria-label="Precedente">&#x2039;</button>
+              <h2 className="title calendar-title">
+                {viewMode === 'monthly'
+                  ? currentDate.toLocaleString('default', { month: 'short', year: 'numeric' })
+                  : 'Settimana ' + currentDate.toLocaleDateString('default', { day: '2-digit', month: 'short' })
+                }
+              </h2>
+              <button onClick={handleNext} className="nav-button" aria-label="Successivo">&#x203A;</button>
             </div>
           </div>
           {/* La griglia del calendario, che si adatta alla vista settimanale/mensile e mobile/desktop */}

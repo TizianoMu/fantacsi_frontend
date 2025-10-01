@@ -438,20 +438,31 @@ body,
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap; /* Permette ai controlli di andare a capo */
+  gap: 1rem; /* Spazio tra i gruppi quando vanno a capo */
   margin-bottom: 1.5rem;
 }
 
-.calendar-nav-group {
+.calendar-actions-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+.calendar-title-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  flex-grow: 1; /* Occupa lo spazio disponibile */
+}
+
 .calendar-title {
   margin: 0;
-  font-size: 1.5rem;
-  flex-grow: 1;
+  font-size: 1.4rem;
   text-align: center;
+  white-space: nowrap; /* Evita che il titolo vada a capo */
+  min-width: 180px; /* Larghezza minima per il titolo */
 }
 
 .view-buttons {
@@ -2721,6 +2732,15 @@ body,
     text-shadow: 0.5px 0.5px 1px #fff; /* Simula paintOrder="stroke" */
     font-weight: bold;
     white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .calendar-controls {
+    justify-content: center; /* Centra i gruppi quando vanno a capo */
+  }
+  .calendar-title-nav {
+    order: -1; /* Sposta il titolo e le frecce in cima su mobile */
+  }
 }
 
 .player-role-icon {
