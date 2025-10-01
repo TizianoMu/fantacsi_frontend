@@ -15,6 +15,9 @@ import Notification from '../components/calendar/Notification';
 import { getSettingsForSport } from '../utils/gameSettings';
 import { useIsMobile } from '../utils/hooks';
 import { getRoleIcon } from '../utils/icons';
+import { getVoteClass } from '../utils/votes';
+
+
 
 
 const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: propChampionshipId, onFormationSaved, isModal = false, isPastMatch = false }, ref) => {
@@ -400,6 +403,8 @@ const SetFormationPage = forwardRef(({ matchId: propMatchId, championshipId: pro
     );
 });
 
+// --- DraggablePlayerListItem, BenchPanel, getVoteClass, BenchSlot (Non modificati) ---
+
 const DraggablePlayerListItem = ({ player, getRoleIcon, onPlayerClick, isFutsal }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: ItemTypes.PLAYER,
@@ -459,6 +464,7 @@ const BenchPanel = ({ reserves, playerDetails, onDrop, onSlotClick, getRoleIcon,
     );
 };
 
+
 const BenchSlot = ({ index, player, onDrop, onSlotClick, getRoleIcon, isSelected, isPastMatch, playerStats }) => {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: ItemTypes.PLAYER,
@@ -490,7 +496,7 @@ const BenchSlot = ({ index, player, onDrop, onSlotClick, getRoleIcon, isSelected
                     </div>
                     <span className="player-in-slot-name">{player.name.split(' ').pop()}</span>
                     {isPastMatch && playerStats[player.id] && (
-                        <span className={`player-vote`}>
+                        <span className={`player-vote ${getVoteClass(playerStats[player.id].vote)}`}>
                             {playerStats[player.id].vote !== null ? playerStats[player.id].vote.toFixed(1) : 'SV'}
                         </span>
                     )}
