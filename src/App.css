@@ -2798,6 +2798,10 @@ body,
 }
 
 @keyframes marquee {
-  from { transform: translateX(0%); }
-  to { transform: translateX(-100%); }
+  0%   { transform: translateX(0%); }
+  20%  { transform: translateX(0%); } /* Pausa iniziale */
+  100% { transform: translateX(-100%); }
+}
+.event-text {
+  display: inline-block; /* Necessario per l'animazione e il calcolo della larghezza */
 }
