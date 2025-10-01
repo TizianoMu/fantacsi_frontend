@@ -264,9 +264,23 @@ const CalendarPage = () => {
             <div className="calendar-title-nav">
               <button onClick={handlePrev} className="nav-button" aria-label="Precedente">&#x2039;</button>
               <h2 className="title calendar-title">
-                {viewMode === 'monthly'
-                  ? currentDate.toLocaleString('default', { month: 'short', year: 'numeric' })
-                  : 'Settimana ' + currentDate.toLocaleDateString('default', { day: '2-digit', month: 'short' })
+                {(() => {
+                  if (viewMode === 'monthly') {
+                    return currentDate.toLocaleString('default', { month: 'short', year: 'numeric' });
+                  }
+                  // Calcola l'intervallo per la vista settimanale
+                  const dayOfWeek = currentDate.getDay();
+                  const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+                  const startOfWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - diff);
+                  const endOfWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 6);
+
+                  const startMonth = startOfWeek.toLocaleString('default', { month: 'short' });
+                  const endMonth = endOfWeek.toLocaleString('default', { month: 'short' });
+
+                  return startMonth === endMonth
+                    ? `${startOfWeek.getDate()} - ${endOfWeek.getDate()} ${endMonth}`
+                    : `${startOfWeek.getDate()} ${startMonth} - ${endOfWeek.getDate()} ${endMonth}`;
+                })()
                 }
               </h2>
               <button onClick={handleNext} className="nav-button" aria-label="Successivo">&#x203A;</button>

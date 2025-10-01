@@ -2734,6 +2734,28 @@ body,
     white-space: nowrap;
 }
 
+/* === Layout Mobile per Calendario Mensile === */
+@media (max-width: 900px) {
+  .day-cells {
+    gap: 0.25rem; /* Riduci lo spazio tra le celle */
+  }
+  .calendar-day {
+    min-height: 100px; /* Altezza minima per contenere gli eventi */
+    padding: 0.3rem;
+  }
+  /* Nascondi il testo dell'evento e mostra solo le icone */
+  .event-item .event-text {
+    display: none;
+  }
+  .event-item .event-icons {
+    display: flex;
+  }
+}
+/* Su desktop, nascondi le icone e mostra il testo */
+.event-item .event-icons {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .calendar-controls {
     justify-content: center; /* Centra i gruppi quando vanno a capo */
@@ -2762,4 +2784,5 @@ body,
 
 .outside-month {
   background: #eaeaea;
+  color: #888;
 }
