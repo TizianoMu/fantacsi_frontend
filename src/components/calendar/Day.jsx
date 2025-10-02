@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPlane, faFutbol, faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import EventItem from './EventItem';
 
 // Component to render a single day cell.
 const Day = ({
@@ -43,26 +42,13 @@ const Day = ({
       </div>
       <div className="day-events">
         {dailyEvents.map(event => {
-          const eventClasses = [
-            'event-item',
-            isEventOver(event.date) ? 'past-event' : ''
-          ].filter(Boolean).join(' ');
-
           return (
-            <div key={event.id} className={eventClasses} onClick={(e) => { e.stopPropagation(); onEditEvent(event); }}>
-              {/* Mostra le icone su mobile per risparmiare spazio */}
-              <span className="event-icons">
-                  {event.home_team === championshipDisplayName ? <FontAwesomeIcon icon={faHome} /> : <FontAwesomeIcon icon={faPlane} />}
-                  <FontAwesomeIcon icon={faFutbol} />
-                  {event.manager_id && <FontAwesomeIcon icon={faUserCheck} style={{ color: 'white' }} />}
-              </span>
-              {/* Mostra il testo su desktop, con effetto marquee se necessario */}
-              <span className="event-text marquee">
-                  {isEventOver(event.date) && event.home_team_goal !== null 
-                    ? `${event.home_team} ${event.home_team_goal} - ${event.away_team_goal} ${event.away_team}` 
-                    : `${event.home_team} vs ${event.away_team}`}
-              </span>
-            </div>
+            <EventItem
+              key={event.id}
+              event={event}
+              onEditEvent={onEditEvent}
+              championshipDisplayName={championshipDisplayName}
+            />
           );
         })}
       </div>

@@ -2749,13 +2749,10 @@ body,
   .event-item .event-text {
     display: inline-block; /* Necessario per l'animazione */
   }
-  .event-item .event-icons {
-    display: none; /* Nascondi le icone su mobile */
-  }
 }
 /* Su desktop, nascondi le icone e mostra il testo */
 .event-item .event-icons {
-  display: none;
+  display: none; /* Nascoste di default */
 }
 
 @media (max-width: 768px) {
@@ -2790,18 +2787,27 @@ body,
 }
 
 /* Contenitore per l'animazione marquee */
-.marquee .event-text {
-  /* Anima solo se il testo è più lungo del contenitore */
+.event-item.marquee .event-text {
   display: inline-block;
   white-space: nowrap;
-  animation: marquee 10s linear infinite;
+  animation: marquee 8s linear infinite;
+  padding-left: 100%; /* Inizia fuori dallo schermo a destra */
 }
 
+/* Quando l'animazione è attiva, il testo parte da fuori e scorre */
 @keyframes marquee {
-  0%   { transform: translateX(0%); }
-  20%  { transform: translateX(0%); } /* Pausa iniziale */
-  100% { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
+
+/* Quando non c'è animazione, il testo si comporta normalmente */
 .event-text {
-  display: inline-block; /* Necessario per l'animazione e il calcolo della larghezza */
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Aggiunge i puntini se il testo non scorre ma è comunque troppo lungo */
+  overflow: hidden;
 }
