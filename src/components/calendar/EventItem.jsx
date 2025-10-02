@@ -14,20 +14,22 @@ const EventItem = ({ event, onEditEvent, championshipDisplayName }) => {
             const container = containerRef.current;
             const text = textRef.current;
             if (container && text) {
-                const hasOverflow = text.scrollWidth > container.clientWidth;
-                if (hasOverflow !== isOverflowing) {
-                    setIsOverflowing(hasOverflow);
-                }
+                // Usiamo requestAnimationFrame per assicurarci che il browser abbia renderizzato
+                // il layout prima di misurare. Questo ci dà una clientWidth affidabile.
+                requestAnimationFrame(() => {
+                    const hasOverflow = text.scrollWidth > container.clientWidth;
+                    // Aggiorniamo lo stato solo se è cambiato per evitare re-render inutili.
+                    setIsOverflowing(current => current !== hasOverflow ? hasOverflow : current);
+                });
             }
         };
 
-        // Controlla al mount e ogni volta che l'evento cambia
+        // Controlla al mount e quando l'evento cambia
         checkOverflow();
 
-        // Aggiungi un listener per il resize della finestra
         window.addEventListener('resize', checkOverflow);
         return () => window.removeEventListener('resize', checkOverflow);
-    }, [event, isOverflowing]); // riesegui se l'evento cambia
+    }, [event]); // Rimuoviamo 'isOverflowing' per evitare loop infiniti
 
     const eventClasses = [
         'event-item',

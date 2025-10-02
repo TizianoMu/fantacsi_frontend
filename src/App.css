@@ -561,6 +561,10 @@ body,
   cursor: pointer;
   transition: box-shadow 0.2s;
 }
+.calendar-day {
+  /* Forza la griglia a rispettare la larghezza definita, ignorando il contenuto. */
+  min-width: 0;
+}
 
 .calendar-day:hover {
   box-shadow: 0 2px 8px rgba(239, 120, 33, 0.15);
@@ -587,6 +591,7 @@ body,
 
 .day-events {
   width: 100%;
+  overflow: hidden; /* Nasconde il contenuto che straborda, permettendo al marquee di funzionare */
 }
 
 .event-item {
